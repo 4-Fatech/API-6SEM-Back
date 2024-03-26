@@ -8,11 +8,11 @@ use spring;
 
 CREATE TABLE log (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    entrada_saida ENUM('1', '0') NOT NULL,
+    entrada BOOLEAN NOT NULL,
     data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 
-insert into log (entrada_saida, data)
-values ('1', '2023-08-01'), -- Entrada
-       ('0', '2023-08-01'); -- Saída
+insert into log (entrada, data)
+values (TRUE, '2023-08-01 08:00:00'), -- Entrada
+       (FALSE, '2023-08-01 17:00:00'); -- Saída

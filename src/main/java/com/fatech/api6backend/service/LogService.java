@@ -25,12 +25,12 @@ public class LogService {
     }
 
     public Log novoLog(Log log) {
-        if (log == null || log.getEntradaSaida() == null) {
+        if (log == null || log.getEntrada() == null) {
             throw new IllegalArgumentException("Dados inválidos!");
         }
         
         // Definir a data atual antes de salvar
-        log.setDataRegistro(LocalDateTime.now());
+        log.setData(LocalDateTime.now()); // Ajuste para o novo nome do campo
         
         return logRepo.save(log);
     }

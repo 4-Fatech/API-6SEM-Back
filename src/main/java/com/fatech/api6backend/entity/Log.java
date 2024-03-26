@@ -10,6 +10,8 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "log")
 public class Log {
@@ -19,11 +21,12 @@ public class Log {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "entrada_saida", columnDefinition = "ENUM('1', '0')")
-    private String entradaSaida;
+    @Column(name = "entrada")
+    private Boolean entrada; // Alterado o nome do campo
 
-    @Column(name = "data", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime dataRegistro; // Alterado para LocalDateTime
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "data")
+    private LocalDateTime data; // Alterado o nome do campo
 
     // Getters e Setters
     public Long getId() {
@@ -34,19 +37,19 @@ public class Log {
         this.id = id;
     }
 
-    public String getEntradaSaida() {
-        return entradaSaida;
+    public Boolean getEntrada() {
+        return entrada;
     }
 
-    public void setEntradaSaida(String entradaSaida) {
-        this.entradaSaida = entradaSaida;
+    public void setEntrada(Boolean entrada) {
+        this.entrada = entrada;
     }
 
-    public LocalDateTime getDataRegistro() {
-        return dataRegistro;
+    public LocalDateTime getData() {
+        return data;
     }
 
-    public void setDataRegistro(LocalDateTime dataRegistro) {
-        this.dataRegistro = dataRegistro;
+    public void setData(LocalDateTime data) {
+        this.data = data;
     }
 }
