@@ -8,16 +8,21 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class LogDTO {
     private Long id;
     private String entrada;
+    
+    
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String data;
 
-    public LogDTO(Long id, String entrada, LocalDateTime data) {
+    private int lotacaoAtual;
+
+    public LogDTO(Long id, String entrada,  LocalDateTime data, int lotacaoAtual) {
         this.id = id;
         this.entrada = entrada;
         this.data = data.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.lotacaoAtual = lotacaoAtual;
     }
-
+    
     public Long getId() {
         return id;
     }
@@ -40,6 +45,14 @@ public class LogDTO {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public int getLotacaoAtual() {
+        return lotacaoAtual;
+    }
+
+    public void setLotacaoAtual(int lotacaoAtual) {
+        this.lotacaoAtual = lotacaoAtual;
     }
 
 }
