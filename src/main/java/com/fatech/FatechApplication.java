@@ -1,13 +1,13 @@
-package com.fatech.api6backend;
+package com.fatech;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Api6backendApplication {
+public class FatechApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Api6backendApplication.class, args);
+		SpringApplication.run(FatechApplication.class, args);
 	}
 
 }

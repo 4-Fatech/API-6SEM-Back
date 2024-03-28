@@ -1,10 +1,10 @@
-package com.fatech.api6backend;
+package com.fatech;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Api6backendApplicationTests {
+class FatechApplicationTests {
 
 	@Test
 	void contextLoads() {
