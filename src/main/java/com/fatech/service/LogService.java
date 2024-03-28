@@ -7,6 +7,7 @@ import com.fatech.dto.LogDTO;
 import com.fatech.entity.Log;
 import com.fatech.repository.LogRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,20 +19,22 @@ public class LogService {
 
     public List<LogDTO> buscarTodosLogs() {
         List<Log> logs = logRepo.findAll();
+        List<LogDTO> logDTOs = new ArrayList<>();
         int lotacaoAtual = 0;
+    
         for (Log log : logs) {
             if (log.getEntrada() != null && log.getEntrada()) {
                 lotacaoAtual++;
             } else if (log.getEntrada() != null && !log.getEntrada()) {
                 lotacaoAtual--;
             }
+            
+            LogDTO logDTO = new LogDTO(log.getId(), log.getEntradaAsString(), log.getData(), lotacaoAtual);
+            logDTOs.add(logDTO);
         }
-        final int lotacaoAtualFinal = lotacaoAtual;
-        return logs.stream()
-                   .map(log -> new LogDTO(log.getId(), log.getEntradaAsString(), log.getData(),lotacaoAtualFinal))
-                   .collect(Collectors.toList());
+        
+        return logDTOs;
     }
-    
     
     public Log criarLog(Log log) {
         return logRepo.save(log);

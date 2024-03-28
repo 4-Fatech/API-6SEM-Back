@@ -24,7 +24,7 @@ public class LogController {
         return service.buscarTodosLogs();
     }
 
-    @PostMapping
+    @PostMapping("/post")
     public ResponseEntity<Log> criarLog(@RequestBody Log novoLog) {
         try {
             novoLog.setData(LocalDateTime.now());
