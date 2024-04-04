@@ -1,15 +1,11 @@
-FROM maven:3.9.6-jdk-17 AS build
-
+# Estágio 1: Construir o aplicativo usando Maven
+FROM maven:3.8.4-jdk-17 AS build
 WORKDIR /app
-
 COPY . .
+RUN mvn clean package
 
-RUN mvn clean install
-
-FROM openjdk:17-jdk-alpine
-
+# Estágio 2: Executar o aplicativo em um contêiner
+FROM adoptopenjdk/openjdk17:jre-17.0.2_8-alpine
 EXPOSE 8080
-
-COPY --from=build /app/target/fatech-0.0.1-SNAPSHOT.jar /app/fatech-0.0.1-SNAPSHOT.jar
-
-ENTRYPOINT ["java", "-jar", "/app/fatech-0.0.1-SNAPSHOT.jar"]
+COPY --from=build /app/target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
