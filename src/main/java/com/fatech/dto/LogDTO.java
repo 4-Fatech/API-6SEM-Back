@@ -14,17 +14,25 @@ public class LogDTO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String data;
 
-    private int lotacaoAtual;
+    private int lotacao;
 
-    public LogDTO(Long id, String entrada,  LocalDateTime data, int lotacaoAtual) {
+    public LogDTO(Long id, String entrada,  LocalDateTime data, int lotacao) {
         this.id = id;
         this.entrada = entrada;
         this.data = data.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        this.lotacaoAtual = lotacaoAtual;
+        this.lotacao = lotacao;
     }
     
     public Long getId() {
         return id;
+    }
+
+    public int getLotacao() {
+        return lotacao;
+    }
+
+    public void setLotacao(int lotacao) {
+        this.lotacao = lotacao;
     }
 
     public void setId(Long id) {
@@ -45,14 +53,6 @@ public class LogDTO {
 
     public void setData(String data) {
         this.data = data;
-    }
-
-    public int getLotacaoAtual() {
-        return lotacaoAtual;
-    }
-
-    public void setLotacaoAtual(int lotacaoAtual) {
-        this.lotacaoAtual = lotacaoAtual;
     }
 
 }

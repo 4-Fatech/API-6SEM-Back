@@ -44,4 +44,19 @@ public class LogController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarLog(@PathVariable Long id) {
+        try {
+            service.deletarLog(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @DeleteMapping("/all")
+    public ResponseEntity<Void> deletarTodosLogs() {
+        service.deletarTodosLogs();
+        return ResponseEntity.noContent().build();
+    }
 }

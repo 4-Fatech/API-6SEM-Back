@@ -30,8 +30,19 @@ public class Log {
     @Column(name = "data")
     private LocalDateTime data;
 
+    @Column
+    private int lotacao;
+
     public Long getId() {
         return id;
+    }
+
+    public int getLotacao() {
+        return lotacao;
+    }
+
+    public void setLotacao(int lotacao) {
+        this.lotacao = lotacao;
     }
 
     public void setId(Long id) {
