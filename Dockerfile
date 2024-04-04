@@ -6,7 +6,7 @@ COPY . .
 
 RUN mvn clean install
 
-FROM adoptopenjdk/openjdk17:jdk-alpine3.14.0
+FROM openjdk:17-jdk-alpine
 
 EXPOSE 8080
 
