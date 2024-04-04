@@ -1,11 +1,13 @@
-# Estágio 1: Construir o aplicativo usando Maven
-FROM maven:3.8.4-jdk-17 AS build
+# Estágio 1: Compilar o aplicativo
+FROM maven:3.8.4-openjdk-17-slim AS build
 WORKDIR /app
 COPY . .
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # Estágio 2: Executar o aplicativo em um contêiner
-FROM adoptopenjdk/openjdk17:jre-17.0.2_8-alpine
-EXPOSE 8080
+FROM openjdk:17-alpine
 COPY --from=build /app/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY src/main/resources/application.properties /app/application.properties 
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+
