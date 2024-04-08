@@ -12,18 +12,34 @@ import com.fatech.dto.LogDTO;
 import com.fatech.entity.Log;
 import com.fatech.service.LogService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(value = "/log")
 @CrossOrigin
+@Tag(name = "Log")
 public class LogController {
     @Autowired
     private LogService service;
 
+    @Operation(summary = "Realiza a busca de registros", method = "GET", description = "Busca todos os registros")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna os registros"),
+            @ApiResponse(responseCode = "400", description = "Não existe nenhum registro")
+    })
     @GetMapping
     public List<LogDTO> buscarTodosLogs() {
         return service.buscarTodosLogs();
     }
 
+    @Operation(summary = "Realiza a criação de registros", method = "POST", description = "Cria um registro")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cria o registro"),
+            @ApiResponse(responseCode = "400", description = "Erro ao criar o registro")
+    })
     @PostMapping("/post")
     public ResponseEntity<Log> criarLog(@RequestBody Log novoLog) {
         try {
@@ -35,6 +51,11 @@ public class LogController {
         }
     }
 
+    @Operation(summary = "Realiza a busca de registro por ID", method = "GET", description = "Busca registro por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna o registro"),
+            @ApiResponse(responseCode = "400", description = "Não encontrado")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<LogDTO> buscarLogPorId(@PathVariable Long id) {
         try {
@@ -45,6 +66,11 @@ public class LogController {
         }
     }
 
+    @Operation(summary = "Realiza a exclusão do registro por ID", method = "DELETE", description = "Exclui o registro por id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ""),
+            @ApiResponse(responseCode = "400", description = "Não encontrado")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarLog(@PathVariable Long id) {
         try {
@@ -54,6 +80,12 @@ public class LogController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Operation(summary = "Realiza a exclusão de todos os registros", method = "DELETE", description = "Deleta todos os registros")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = ""),
+            @ApiResponse(responseCode = "400", description = "")
+    })
     @DeleteMapping("/all")
     public ResponseEntity<Void> deletarTodosLogs() {
         service.deletarTodosLogs();
