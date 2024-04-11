@@ -6,6 +6,7 @@
  <a href="#-funcionalidades">Funcionalidades</a> •
  <a href="#-layout">Layout</a> •
  <a href="#-tecnologias">Tecnologias</a> •
+ <a href="#-Deploy">Deploy</a> •
  <a href="#-autores">Autores</a> • 
 </p>
 
@@ -55,6 +56,12 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 - Modelo entidade Relacionamento: 
 - Editor: **[Visual Studio Code](https://code.visualstudio.com/)**
+
+---
+
+## ✅ Deploy
+Atualmente o backend pode ser consultado online a partir do site: https://api-6sem-back.onrender.com/
+E também as **rotas** do backend estão documentadas em: https://api-6sem-back.onrender.com/swagger-ui/index.html
 
 ---
 
