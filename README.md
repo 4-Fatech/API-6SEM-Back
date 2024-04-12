@@ -29,6 +29,8 @@
 
 O Modelo entidade relacionamento da aplicação está disponível em:
 
+![mer](https://github.com/4-Fatech/API-6SEM-Back/assets/89141910/a2844199-0f73-4ebc-97db-3e5d9d2bc42f)
+
 
 #### 🧭 Rodando a aplicação web (Modo desenvolvimento)
 
