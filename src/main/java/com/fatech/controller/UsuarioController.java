@@ -35,4 +35,25 @@ public class UsuarioController {
         Usuario novoUsuario = usuarioService.criarUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
     }
+
+    @Operation(summary = "Buscar todos os usuários", description = "Retorna todos os usuários")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todos os usuários"),
+            @ApiResponse(responseCode = "400", description = "Não há usuários cadastrados")
+    })
+    @GetMapping
+    public List<Usuario> buscarTodosUsuarios() {
+        return usuarioService.buscarTodosUsuarios();
+    }
+
+    @Operation(summary = "Buscar usuário por ID", description = "Retorna um usuário por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna o usuário"),
+            @ApiResponse(responseCode = "400", description = "Usuário não encontrado")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable long id) {
+        Optional<Usuario> usuario = usuarioService.buscarUsuarioPorId(id);
+        return usuario.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

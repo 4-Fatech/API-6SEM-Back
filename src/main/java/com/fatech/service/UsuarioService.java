@@ -17,4 +17,13 @@ public class UsuarioService {
     public Usuario criarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
+
+    public List<Usuario> buscarTodosUsuarios() {
+        return usuarioRepository.findAll();
+    }
+
+    public Optional<Usuario> buscarUsuarioPorId(long id) {
+        return usuarioRepository.findById(id);
+    }
+
 }
