@@ -26,4 +26,8 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
+    public Usuario atualizarUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
+    }
+
 }

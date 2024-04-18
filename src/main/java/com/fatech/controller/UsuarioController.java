@@ -1,6 +1,5 @@
 package com.fatech.controller;
 
-
 import com.fatech.entity.Usuario;
 import com.fatech.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +54,17 @@ public class UsuarioController {
     public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable long id) {
         Optional<Usuario> usuario = usuarioService.buscarUsuarioPorId(id);
         return usuario.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @Operation(summary = "Atualizar um usuário existente", description = "Atualiza um usuário existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro ao atualizar o usuário")
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable long id, @RequestBody Usuario usuario) {
+        usuario.setId_usuario(id);
+        Usuario usuarioAtualizado = usuarioService.atualizarUsuario(usuario);
+        return ResponseEntity.ok().body(usuarioAtualizado);
     }
 }
