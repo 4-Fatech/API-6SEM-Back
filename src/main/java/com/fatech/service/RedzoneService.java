@@ -51,6 +51,25 @@ public class RedzoneService {
         }
         return redzoneOptional.get();
     }
+    public void excluirRedzone(long id) {
+        
+        if (!redzoneRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Redzone não encontrada");
+        }
+        redzoneRepository.deleteById(id);
+    }
+
+    public void deletarRedzone(long id) {
+        Optional<Redzone> optionalRedzone = redzoneRepository.findById(id);
+        if (optionalRedzone.isPresent()) {
+            Redzone redzone = optionalRedzone.get();
+            redzone.desativar(); 
+            redzoneRepository.save(redzone); 
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Redzone não encontrada");
+        }
+    }
+    
 
 
    
