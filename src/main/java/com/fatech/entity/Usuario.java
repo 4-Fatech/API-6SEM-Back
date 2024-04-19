@@ -21,7 +21,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
     private Long id_usuario;
-   
+
     @Column(name = "nome_usuario", nullable = false)
     private String nome_usuario;
 
@@ -105,8 +105,6 @@ public class Usuario {
         this.delete_at = delete_at;
     }
 
-
-
     public LocalDateTime getCreate_at() {
         return create_at;
     }
@@ -122,17 +120,19 @@ public class Usuario {
     public void setUpdate_at(LocalDateTime update_at) {
         this.update_at = update_at;
     }
-    
+
     // Método para desativar o usuário (soft delete)
     public void desativar() {
-            this.delete_at = LocalDateTime.now();    
-            System.out.println(this.delete_at + "AAAAAAAAAAAAAAAAAAAAAAA");       
-    }   
-
+        if (this.delete_at == null) {
+            this.delete_at = LocalDateTime.now();
+        } else {
+            this.delete_at = null;
+        }
+    }
 
     // Método para verificar se o usuário foi desativado logicamente
-    public boolean isDesativado() {        
-        return delete_at != null;       
+    public boolean isStatus() {
+        return delete_at != null;
     }
 
     @PrePersist
@@ -148,11 +148,9 @@ public class Usuario {
     @PreUpdate
     protected void onUpdate() {
         // Atualiza o update_at apenas se o usuário não estiver sendo desativado
-        if (!isDesativado()) {
+        if (!isStatus()) {
             update_at = LocalDateTime.now();
         }
     }
-  
-
 
 }
