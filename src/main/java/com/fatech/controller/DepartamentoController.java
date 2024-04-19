@@ -73,5 +73,26 @@ public class DepartamentoController {
             return ResponseEntity.notFound().build();
         }
     }
+    @Operation(summary = "Excluir Definitivamente um departamento por ID", description = "Exclui Definitivamente um departamento por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Departamento excluído com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Departamento não encontrado")
+    })
+    @DeleteMapping("/destruir/{id}")
+    public ResponseEntity<Void> excluirDepartamento(@PathVariable long id) {
+        departamentoService.excluirDepartamento(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Excluir um departamento por ID", description = "Exclui um departamento por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Departamento excluído com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Departamento não encontrado")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarDepartamento(@PathVariable long id) {
+        departamentoService.deletarDepartamento(id);
+        return ResponseEntity.noContent().build();
+    }
     
 }

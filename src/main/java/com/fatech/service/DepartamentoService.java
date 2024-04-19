@@ -55,6 +55,30 @@ public class DepartamentoService {
         }
         return departamentoOptional.get();
     }
+    public void excluirDepartamento(long id) {
+        if (id <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID de departamento inválido");
+        }
+        if (!departamentoRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Departamento não encontrado para o ID fornecido");
+        }
+        departamentoRepository.deleteById(id);
+    }
+    
+    public void deletarDepartamento(long id) {
+        if (id <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID de departamento inválido");
+        }
+        Optional<Departamento> optionalDepartamento = departamentoRepository.findById(id);
+        if (optionalDepartamento.isPresent()) {
+            Departamento departamento = optionalDepartamento.get();
+            departamento.desativar(); // Desativa o departamento
+            departamentoRepository.save(departamento); // Salva as alterações
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Departamento não encontrado para o ID fornecido");
+        }
+    }
+    
     
 
     
