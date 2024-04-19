@@ -67,4 +67,16 @@ public class UsuarioController {
         Usuario usuarioAtualizado = usuarioService.atualizarUsuario(usuario);
         return ResponseEntity.ok().body(usuarioAtualizado);
     }
+
+    
+    @Operation(summary = "Desativar usuário", description = "Desativar Usuário")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usuário Desativado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> desativarUsuario(@PathVariable long id) {
+        usuarioService.desativarUsuario(id);
+        return ResponseEntity.noContent().build();
+    }
 }
