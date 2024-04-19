@@ -2,6 +2,10 @@ package com.fatech.service;
 
 import com.fatech.entity.Redzone;
 import com.fatech.repository.RedzoneRepository;
+
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,6 +33,25 @@ public class RedzoneService {
     
         return redzoneRepository.save(redzone);
     }
+    public List<Redzone> buscarTodasRedzones() {
+        List<Redzone> redzones = redzoneRepository.findAll();
+        if (redzones.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhuma redzone encontrada");
+        }
+        return redzones;
+    }
+    
+    public Redzone buscarRedzonePorId(long id) {
+        if (id <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID de redzone inválido");
+        }
+        Optional<Redzone> redzoneOptional = redzoneRepository.findById(id);
+        if (redzoneOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Redzone não encontrada para o ID fornecido");
+        }
+        return redzoneOptional.get();
+    }
+
 
    
     
