@@ -34,5 +34,34 @@ public class RedzoneController {
         Redzone novaRedzone = redzoneService.criarRedzone(redzone);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaRedzone);
     }
+    @Operation(summary = "Buscar todas as redzones", description = "Retorna todas as redzones")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todas as redzones"),
+            @ApiResponse(responseCode = "400", description = "Não há redzones cadastradas")
+    })
+    @GetMapping
+    public ResponseEntity<List<Redzone>> buscarTodasRedzones() {
+        List<Redzone> redzones = redzoneService.buscarTodasRedzones();
+        if (redzones.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(redzones);
+    }
+
+    @Operation(summary = "Buscar redzone por ID", description = "Retorna uma redzone por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna a redzone"),
+            @ApiResponse(responseCode = "400", description = "Redzone não encontrada")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<Redzone> buscarRedzonePorId(@PathVariable long id) {
+        Redzone redzone;
+        try {
+            redzone = redzoneService.buscarRedzonePorId(id);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(redzone);
+    }
     
 }
