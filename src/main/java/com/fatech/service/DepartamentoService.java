@@ -24,6 +24,16 @@ public class DepartamentoService {
         }
         return departamentoRepository.save(departamento);
     }
+    public Departamento atualizarDepartamento(Departamento departamento) {
+        if (departamento == null || 
+            departamento.getId_departamento() <= 0 ||
+            departamento.getNome_departamento() == null ||
+            departamento.getNome_departamento().isBlank() ||
+            departamento.getResponsavel_id() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados inválidos para atualizar o departamento");
+        }
+        return departamentoRepository.save(departamento);
+    }
 
     
     
