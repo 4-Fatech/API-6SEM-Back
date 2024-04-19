@@ -90,13 +90,17 @@ public class Departamento {
         this.responsavel_id = responsavel_id;
     }
 
-    // Método para desativar o departamento (soft delete)
+    // Método para desativar o usuário (soft delete)
     public void desativar() {
-        this.delete_at = LocalDateTime.now();
+        if (this.delete_at == null) {
+            this.delete_at = LocalDateTime.now();
+        } else {
+            this.delete_at = null;
+        }
     }
 
-    // Método para verificar se o departamento foi desativado logicamente
-    public boolean isDesativado() {
+    // Método para verificar se o usuário foi desativado logicamente
+    public boolean isStatus() {
         return delete_at != null;
     }
 
@@ -112,19 +116,9 @@ public class Departamento {
 
     @PreUpdate
     protected void onUpdate() {
-        // Atualiza o update_at apenas se o departamento não estiver sendo desativado
-        if (!isDesativado()) {
+        // Atualiza o update_at apenas se o usuário não estiver sendo desativado
+        if (!isStatus()) {
             update_at = LocalDateTime.now();
         }
-    }
-
-    // Método para exclusão lógica (soft delete)
-    public void delete() {
-        this.delete_at = LocalDateTime.now();
-    }
-
-    // Método para verificar se o departamento foi excluído logicamente
-    public boolean isDeleted() {
-        return delete_at != null;
     }
 }
