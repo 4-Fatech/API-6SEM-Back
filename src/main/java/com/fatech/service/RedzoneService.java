@@ -69,6 +69,20 @@ public class RedzoneService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Redzone não encontrada");
         }
     }
+    public Redzone atualizarRedzone(Redzone redzone) {
+        if (redzone.getId_redzone() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID da redzone não fornecido");
+        }
+
+       
+        if (!redzoneRepository.existsById(redzone.getId_redzone())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Redzone não encontrada");
+        }
+
+
+
+        return redzoneRepository.save(redzone);
+    }
     
 
 

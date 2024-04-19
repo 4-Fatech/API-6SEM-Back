@@ -84,4 +84,15 @@ public class RedzoneController {
         redzoneService.deletarRedzone(id);
         return ResponseEntity.noContent().build();
     }
+    @Operation(summary = "Atualizar uma redzone existente", description = "Atualiza uma redzone existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Redzone atualizada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro ao atualizar a redzone")
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<Redzone> atualizarRedzone(@PathVariable long id, @RequestBody Redzone redzone) {
+        redzone.setId_redzone(id);
+        Redzone redzoneAtualizada = redzoneService.atualizarRedzone(redzone);
+        return ResponseEntity.ok().body(redzoneAtualizada);
+    }
 }
