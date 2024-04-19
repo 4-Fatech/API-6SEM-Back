@@ -63,5 +63,25 @@ public class RedzoneController {
         }
         return ResponseEntity.ok(redzone);
     }
-    
+    @Operation(summary = "Excluir Definitivamente uma redzone por ID", description = "Exclui Definitivamente uma redzone por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Redzone excluída com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Redzone não encontrada")
+    })
+    @DeleteMapping("/destruir/{id}")
+    public ResponseEntity<Void> excluirRedzone(@PathVariable long id) {
+        redzoneService.excluirRedzone(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Excluir uma redzone por ID", description = "Exclui uma redzone por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Redzone excluída com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Redzone não encontrada")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarRedzone(@PathVariable long id) {
+        redzoneService.deletarRedzone(id);
+        return ResponseEntity.noContent().build();
+    }
 }
