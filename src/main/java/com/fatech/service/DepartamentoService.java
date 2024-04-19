@@ -15,12 +15,11 @@ public class DepartamentoService {
     private DepartamentoRepository departamentoRepository;
 
     public Departamento criarDepartamento(Departamento departamento) {
-        if(departamento == null || 
-        departamento.getNome_departamento() == null ||
-        departamento.getNome_departamento().isBlank()
-
-        ){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados Invalidos");
+        if (departamento == null || 
+            departamento.getNome_departamento() == null ||
+            departamento.getNome_departamento().isBlank() ||
+            departamento.getResponsavel_id() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados inválidos para criar o departamento");
         }
         return departamentoRepository.save(departamento);
     }
