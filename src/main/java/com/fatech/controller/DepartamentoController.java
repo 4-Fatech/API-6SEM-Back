@@ -34,6 +34,18 @@ public class DepartamentoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoDepartamento);
     }
 
+    @Operation(summary = "Atualizar um departamento existente", description = "Atualiza um departamento existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Departamento atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro ao atualizar o departamento")
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<Departamento> atualizarDepartamento(@PathVariable long id, @RequestBody Departamento departamento) {
+        departamento.setId_departamento(id);
+        Departamento departamentoAtualizado = departamentoService.atualizarDepartamento(departamento);
+        return ResponseEntity.ok().body(departamentoAtualizado);
+    }
+
 
     
 }
