@@ -3,8 +3,10 @@ package com.fatech.service;
 import com.fatech.entity.Departamento;
 import com.fatech.repository.DepartamentoRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +44,10 @@ public class DepartamentoService {
         if (departamentos.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum departamento encontrado");
         }
-        return departamentos;
+        List<Departamento> departamentosOrdenados = departamentos.stream()
+                .sorted(Comparator.comparingLong(Departamento::getId_departamento))
+                .collect(Collectors.toList());
+        return departamentosOrdenados;
     }
     
     public Departamento buscarDepartamentoPorId(long id) {
