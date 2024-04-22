@@ -125,7 +125,9 @@ public class Redzone {
         this.id_departamento = id_departamento;
     }
  // Método para desativar o usuário (soft delete)
- public void desativar() {
+// Método para desativar o usuário (soft delete)
+// Método para desativar o usuário (soft delete)
+public void desativar() {
     if (this.delete_at == null) {
         this.delete_at = LocalDateTime.now();
     } else {
@@ -133,9 +135,11 @@ public class Redzone {
     }
 }
 
+
+
 // Método para verificar se o usuário foi desativado logicamente
 public boolean isStatus() {
-    return delete_at != null;
+    return delete_at == null;
 }
 
 @PrePersist
