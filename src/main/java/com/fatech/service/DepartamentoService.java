@@ -3,6 +3,7 @@ package com.fatech.service;
 import com.fatech.entity.Departamento;
 import com.fatech.repository.DepartamentoRepository;
 
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -43,9 +44,11 @@ public class DepartamentoService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Departamento não encontrado"));
     
         
+        
         departamento.setDelete_at(departamentoExistente.getDelete_at());
-        departamento.setUpdate_at(departamentoExistente.getUpdate_at());
+        departamento.setUpdate_at(LocalDateTime.now());
         departamento.setCreate_at(departamentoExistente.getCreate_at());
+        
        
         return departamentoRepository.save(departamento);
     }
