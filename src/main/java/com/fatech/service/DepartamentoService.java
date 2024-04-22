@@ -41,6 +41,7 @@ public class DepartamentoService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Departamento não encontrado"));
     
         
+        
         departamento.setDelete_at(departamentoExistente.getDelete_at());
         departamento.setUpdate_at(LocalDateTime.now());
         departamento.setCreate_at(departamentoExistente.getCreate_at());
