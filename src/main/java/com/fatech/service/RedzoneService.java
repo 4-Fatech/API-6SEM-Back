@@ -70,18 +70,29 @@ public class RedzoneService {
         }
     }
     public Redzone atualizarRedzone(Redzone redzone) {
+        
         if (redzone.getId_redzone() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID da redzone não fornecido");
         }
-
-       
+    
+        
         if (!redzoneRepository.existsById(redzone.getId_redzone())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Redzone não encontrada");
         }
+    
+        
+        Redzone redzoneExistente = redzoneRepository.findById(redzone.getId_redzone()).get();
+    
+        
+        redzoneExistente.setNome_redzone(redzone.getNome_redzone());
+        redzoneExistente.setCamera(redzone.getCamera());
+        redzoneExistente.setCapacidade_maxima(redzone.getCapacidade_maxima());
+        redzoneExistente.setId_departamento(redzone.getId_departamento());
+    
+        
+        redzoneExistente.setDelete_at(redzone.getDelete_at());
 
-
-
-        return redzoneRepository.save(redzone);
+        return redzoneRepository.save(redzoneExistente);
     }
     
 
