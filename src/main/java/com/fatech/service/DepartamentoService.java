@@ -37,6 +37,16 @@ public class DepartamentoService {
             departamento.getResponsavel_id() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados inválidos para atualizar o departamento");
         }
+        
+       
+        Departamento departamentoExistente = departamentoRepository.findById(departamento.getId_departamento())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Departamento não encontrado"));
+    
+        
+        departamento.setDelete_at(departamentoExistente.getDelete_at());
+        departamento.setUpdate_at(departamentoExistente.getUpdate_at());
+        departamento.setCreate_at(departamentoExistente.getCreate_at());
+       
         return departamentoRepository.save(departamento);
     }
     public List<Departamento> buscarTodosDepartamentos() {
