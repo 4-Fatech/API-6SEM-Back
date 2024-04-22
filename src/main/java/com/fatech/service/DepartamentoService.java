@@ -2,6 +2,9 @@ package com.fatech.service;
 
 import com.fatech.entity.Departamento;
 import com.fatech.repository.DepartamentoRepository;
+
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -39,8 +42,9 @@ public class DepartamentoService {
     
         
         departamento.setDelete_at(departamentoExistente.getDelete_at());
-        departamento.setUpdate_at(departamentoExistente.getUpdate_at());
+        departamento.setUpdate_at(LocalDateTime.now());
         departamento.setCreate_at(departamentoExistente.getCreate_at());
+        
        
         return departamentoRepository.save(departamento);
     }
