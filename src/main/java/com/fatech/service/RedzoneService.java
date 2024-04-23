@@ -22,8 +22,8 @@ public class RedzoneService {
         if (redzone == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Redzone não pode ser nulo");
         }
-        if (redzone.getNome_redzone() == null || redzone.getNome_redzone().isEmpty() ||
-                redzone.getCamera() == null || redzone.getCamera().isEmpty() ||
+        if (redzone.getNome_redzone() == null || redzone.getNome_redzone().isBlank() ||
+                redzone.getCamera() == null || redzone.getCamera().isBlank() ||
                 redzone.getCapacidade_maxima() <= 0 ||
                 redzone.getId_departamento() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -76,6 +76,15 @@ public class RedzoneService {
         if (redzone.getId_redzone() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID da redzone não fornecido");
         }
+        if (redzone.getNome_redzone() == null ||
+                redzone.getNome_redzone().isBlank() ||
+                redzone.getCamera() == null || 
+                redzone.getCamera().isBlank() ||
+                redzone.getCapacidade_maxima() <= 0 ||
+                redzone.getId_departamento() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Todos os campos obrigatórios devem ser fornecidos");
+        }
 
         if (!redzoneRepository.existsById(redzone.getId_redzone())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Redzone não encontrada");
@@ -88,7 +97,7 @@ public class RedzoneService {
         redzoneExistente.setCapacidade_maxima(redzone.getCapacidade_maxima());
         redzoneExistente.setId_departamento(redzone.getId_departamento());
 
-        // Atualiza o responsável apenas se um novo responsável for fornecido
+  
         if (redzone.getResponsavel_id() != null) {
             redzoneExistente.setResponsavel_id(redzone.getResponsavel_id());
         }
