@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-
-
 @Service
 public class RedzoneService {
 
@@ -25,14 +23,16 @@ public class RedzoneService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Redzone não pode ser nulo");
         }
         if (redzone.getNome_redzone() == null || redzone.getNome_redzone().isEmpty() ||
-            redzone.getCamera() == null || redzone.getCamera().isEmpty() ||
-            redzone.getCapacidade_maxima() <= 0 ||
-            redzone.getId_departamento() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Todos os campos obrigatórios devem ser fornecidos");
+                redzone.getCamera() == null || redzone.getCamera().isEmpty() ||
+                redzone.getCapacidade_maxima() <= 0 ||
+                redzone.getId_departamento() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Todos os campos obrigatórios devem ser fornecidos");
         }
-    
+
         return redzoneRepository.save(redzone);
     }
+
     public List<Redzone> buscarTodasRedzones() {
         List<Redzone> redzones = redzoneRepository.findAll();
         if (redzones.isEmpty()) {
@@ -40,7 +40,7 @@ public class RedzoneService {
         }
         return redzones;
     }
-    
+
     public Redzone buscarRedzonePorId(long id) {
         if (id <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID de redzone inválido");
@@ -51,8 +51,9 @@ public class RedzoneService {
         }
         return redzoneOptional.get();
     }
+
     public void excluirRedzone(long id) {
-        
+
         if (!redzoneRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Redzone não encontrada");
         }
@@ -63,40 +64,37 @@ public class RedzoneService {
         Optional<Redzone> optionalRedzone = redzoneRepository.findById(id);
         if (optionalRedzone.isPresent()) {
             Redzone redzone = optionalRedzone.get();
-            redzone.desativar(); 
-            redzoneRepository.save(redzone); 
+            redzone.desativar();
+            redzoneRepository.save(redzone);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Redzone não encontrada");
         }
     }
+
     public Redzone atualizarRedzone(Redzone redzone) {
-        
+
         if (redzone.getId_redzone() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID da redzone não fornecido");
         }
-    
-        
+
         if (!redzoneRepository.existsById(redzone.getId_redzone())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Redzone não encontrada");
         }
-    
-        
+
         Redzone redzoneExistente = redzoneRepository.findById(redzone.getId_redzone()).get();
-    
-        
+
         redzoneExistente.setNome_redzone(redzone.getNome_redzone());
         redzoneExistente.setCamera(redzone.getCamera());
         redzoneExistente.setCapacidade_maxima(redzone.getCapacidade_maxima());
         redzoneExistente.setId_departamento(redzone.getId_departamento());
-    
-        
+
+        // Atualiza o responsável apenas se um novo responsável for fornecido
+        if (redzone.getResponsavel_id() != null) {
+            redzoneExistente.setResponsavel_id(redzone.getResponsavel_id());
+        }
         redzoneExistente.setDelete_at(redzone.getDelete_at());
 
         return redzoneRepository.save(redzoneExistente);
     }
-    
 
-
-   
-    
 }
