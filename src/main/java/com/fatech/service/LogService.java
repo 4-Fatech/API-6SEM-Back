@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 
 import com.fatech.dto.LogDTO;
 import com.fatech.entity.Log;
+import com.fatech.entity.Redzone;
 import com.fatech.repository.LogRepository;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +17,10 @@ import java.util.stream.Collectors;
 public class LogService {
     @Autowired
     private LogRepository logRepo;
+
+    public List<Log> findLogsByRedzoneId(Redzone redzoneId) {
+        return logRepo.findByRedzoneId(redzoneId);
+      }
 
     public List<LogDTO> buscarTodosLogs() {
         List<Log> logs = logRepo.findAll();
@@ -46,4 +52,6 @@ public class LogService {
     public void deletarTodosLogs() {
         logRepo.deleteAll();
     }
+   
+    
 }
