@@ -50,10 +50,9 @@ public class UsuarioController {
             @ApiResponse(responseCode = "200", description = "Retorna o usuário"),
             @ApiResponse(responseCode = "400", description = "Usuário não encontrado")
     })
-    @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable long id) {
-        Optional<Usuario> usuario = usuarioService.buscarUsuarioPorId(id);
-        return usuario.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping(value = "/{id}")
+    public Usuario buscarUsuarioPorId(@PathVariable("id") Long id) {
+        return usuarioService.buscarUsuarioPorId(id);
     }
 
     @Operation(summary = "Atualizar um usuário existente", description = "Atualiza um usuário existente")
@@ -68,7 +67,6 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuarioAtualizado);
     }
 
-    
     @Operation(summary = "Desativar usuário", description = "Desativar Usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Usuário Desativado com sucesso"),

@@ -17,6 +17,19 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     public Usuario criarUsuario(Usuario usuario) {
+        if (usuario == null ||
+                usuario.getEmail() == null ||
+                usuario.getEmail().isBlank() ||
+                usuario.getMatricula_empresa() == null ||
+                usuario.getMatricula_empresa().isBlank() ||
+                usuario.getNome_usuario() == null ||
+                usuario.getNome_usuario().isBlank() ||
+                // usuario.getSenha() == null ||
+                // usuario.getSenha().isBlank() ||
+                usuario.getTipo_usuario() == null ||
+                usuario.getTipo_usuario().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados invalidos");
+        }
         return usuarioRepository.save(usuario);
     }
 
@@ -24,8 +37,15 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> buscarUsuarioPorId(long id) {
-        return usuarioRepository.findById(id);
+    public Usuario buscarUsuarioPorId(Long id) {
+        Optional<Usuario> usuarioOp = usuarioRepository.findById(id);
+
+        if (usuarioOp.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado");
+        }
+
+        return usuarioOp.get();
+
     }
 
     public Usuario atualizarUsuario(Usuario usuario) {
