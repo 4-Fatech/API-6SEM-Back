@@ -8,7 +8,7 @@ import com.fatech.entity.Log;
 import com.fatech.entity.Redzone;
 import com.fatech.repository.LogRepository;
 
-
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,6 +52,9 @@ public class LogService {
     public void deletarTodosLogs() {
         logRepo.deleteAll();
     }
-   
+
+    public List<Log> findByRedzoneIdAndDateRange(Redzone redzoneId, LocalDateTime startDate, LocalDateTime endDate) {
+        return logRepo.findByRedzoneIdAndDateRange(redzoneId, startDate, endDate);
+    }
     
 }
