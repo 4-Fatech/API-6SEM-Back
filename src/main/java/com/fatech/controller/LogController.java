@@ -1,21 +1,26 @@
 package com.fatech.controller;
 
 import java.time.LocalDateTime;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.fatech.dto.LogDTO;
 import com.fatech.entity.Log;
+import com.fatech.entity.Redzone;
 import com.fatech.service.LogService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import com.fatech.repository.LogRepository; // Import the interface
 
 @RestController
 @RequestMapping(value = "/log")
@@ -24,6 +29,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class LogController {
     @Autowired
     private LogService service;
+
+    @Autowired
+    private LogRepository logRepository;
 
     @Operation(summary = "Realiza a busca de registros", method = "GET", description = "Busca todos os registros")
     @ApiResponses(value = {
@@ -91,4 +99,38 @@ public class LogController {
         service.deletarTodosLogs();
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(summary = "Realiza a busca de registro por ID da redzone", method = "GET", description = "Busca registro por id_redzone")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna o registro"),
+            @ApiResponse(responseCode = "400", description = "Não encontrado")
+    })
+    @GetMapping("/redzone/{redzoneId}")
+    public ResponseEntity<List<LogDTO>> findLogsByRedzoneId(@PathVariable Redzone redzoneId) {
+        List<Log> logs = service.findLogsByRedzoneId(redzoneId);
+        List<LogDTO> logDTOs = logs.stream()
+                .map(log -> new LogDTO(log.getId(), log.getEntradaAsString(), log.getData(), log.getLotacao()))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(logDTOs);
+    }
+
+    @Operation(summary = "Realiza a busca de registros filtrando pelo ID da redzone e um período de datas", method = "GET", description = "Busca registro por id_redzone")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna os registros"),
+            @ApiResponse(responseCode = "400", description = "Não encontrado")
+    })
+    @GetMapping("/redzone/{redzoneId}/dates")
+    public ResponseEntity<List<Log>> findByRedzoneIdAndDateRange(
+            @PathVariable Redzone redzoneId,
+            @RequestParam LocalDateTime startDate,
+            @RequestParam LocalDateTime endDate) {
+        startDate = startDate.minusHours(3);
+        endDate = endDate.minusHours(3);
+        List<Log> logs = service.findByRedzoneIdAndDateRange(redzoneId, startDate, endDate);
+        for (Log log : logs) {
+            log.setData(log.getData().plusHours(3));
+        }
+        return ResponseEntity.ok(logs);
+    }
+
 }

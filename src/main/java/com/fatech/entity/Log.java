@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
@@ -23,15 +25,27 @@ public class Log {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "entrada")
+    @Column(name = "entrada", nullable = false)
     private Boolean entrada;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "data")
+    @Column(name = "data", nullable = false)
     private LocalDateTime data;
 
-    @Column
+    @Column(name = "lotacao", nullable = false)
     private int lotacao;
+
+    @ManyToOne
+    @JoinColumn(name = "id_redzone", nullable = false)
+    private Redzone redzoneId;
+
+    public Redzone getRedzoneId() {
+        return redzoneId;
+    }
+
+    public void setRedzoneId(Redzone redzoneId) {
+        this.redzoneId = redzoneId;
+    }
 
     public Long getId() {
         return id;
@@ -72,4 +86,6 @@ public class Log {
             return null;
         }
     }
+
+    
 }
