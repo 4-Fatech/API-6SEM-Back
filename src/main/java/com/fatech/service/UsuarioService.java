@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -34,7 +36,14 @@ public class UsuarioService {
     }
 
     public List<Usuario> buscarTodosUsuarios() {
-        return usuarioRepository.findAll();
+        List<Usuario> todosUsuario = usuarioRepository.findAll();
+        if (todosUsuario.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum usuário encontrado");
+        }
+        List<Usuario> usuariosOrdenados = todosUsuario.stream()
+        .sorted(Comparator.comparing(Usuario::getId_usuario))
+        .collect(Collectors.toList());
+        return usuariosOrdenados;
     }
 
     public Usuario buscarUsuarioPorId(Long id) {
