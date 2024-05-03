@@ -124,12 +124,7 @@ public class LogController {
             @PathVariable Redzone redzoneId,
             @RequestParam LocalDateTime startDate,
             @RequestParam LocalDateTime endDate) {
-        startDate = startDate.minusHours(3);
-        endDate = endDate.minusHours(3);
         List<Log> logs = service.findByRedzoneIdAndDateRange(redzoneId, startDate, endDate);
-        for (Log log : logs) {
-            log.setData(log.getData().plusHours(3));
-        }
         return ResponseEntity.ok(logs);
     }
 
