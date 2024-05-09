@@ -113,4 +113,8 @@ public class RedzoneService {
         return redzoneRepository.save(redzoneExistente);
     }
 
+
+    public List<Redzone> listarRedzonesPorDepartamento(Long idDepartamento) {
+        return redzoneRepository.listarRedzonesPorDepartamento(idDepartamento);
+    }
 }

@@ -95,4 +95,10 @@ public class RedzoneController {
         Redzone redzoneAtualizada = redzoneService.atualizarRedzone(redzone);
         return ResponseEntity.ok().body(redzoneAtualizada);
     }
+    
+    @GetMapping("/departamentos/{idDepartamento}")
+    public ResponseEntity<List<Redzone>> listarRedzonesPorDepartamento(@PathVariable Long idDepartamento) {
+        List<Redzone> redzones = redzoneService.listarRedzonesPorDepartamento(idDepartamento);
+        return new ResponseEntity<>(redzones, HttpStatus.OK);
+    }
 }
