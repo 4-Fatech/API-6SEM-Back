@@ -132,7 +132,7 @@ public class RedzoneService {
 
     @Transactional
     public void atualizarResponsavelRedzone(Long idRedzone, Long idResponsavel) {
-        // Verificar se a redzone e o novo responsável existem
+        
         Optional<Redzone> redzoneOptional = redzoneRepository.findById(idRedzone);
         Optional<Usuario> novoResponsavelOptional = usuarioRepository.findById(idResponsavel);
 
@@ -140,7 +140,7 @@ public class RedzoneService {
             Redzone redzone = redzoneOptional.get();
             Usuario novoResponsavel = novoResponsavelOptional.get();
 
-            // Atualizar o responsável da redzone
+            
             redzone.setResponsavel_id(novoResponsavel);
             redzoneRepository.save(redzone);
         } else {

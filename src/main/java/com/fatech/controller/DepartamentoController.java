@@ -94,5 +94,17 @@ public class DepartamentoController {
         departamentoService.deletarDepartamento(id);
         return ResponseEntity.noContent().build();
     }
+
+
+    
+    public DepartamentoController(DepartamentoService departamentoService) {
+        this.departamentoService = departamentoService;
+    }
+
+    @GetMapping("/departamentos/responsavel/{idResponsavel}")
+    public ResponseEntity<List<Departamento>> listarDepartamentosPorResponsavel(@PathVariable Long idResponsavel) {
+        List<Departamento> departamentos = departamentoService.listarDepartamentosPorResponsavel(idResponsavel);
+        return new ResponseEntity<>(departamentos, HttpStatus.OK);
+    }
     
 }
