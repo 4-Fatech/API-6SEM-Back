@@ -1,11 +1,9 @@
 package com.fatech.service;
 
 import com.fatech.entity.Redzone;
-import com.fatech.entity.Usuario;
-import com.fatech.repository.RedzoneRepository;
-import com.fatech.repository.UsuarioRepository;
 
-import jakarta.transaction.Transactional;
+import com.fatech.repository.RedzoneRepository;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -118,33 +116,5 @@ public class RedzoneService {
     }
 
 
-    public List<Redzone> listarRedzonesPorDepartamento(Long idDepartamento) {
-        return redzoneRepository.listarRedzonesPorDepartamento(idDepartamento);
-    }
-
-    private UsuarioRepository usuarioRepository;
-    
-    
-    public RedzoneService(RedzoneRepository redzoneRepository, UsuarioRepository usuarioRepository) {
-        this.redzoneRepository = redzoneRepository;
-        this.usuarioRepository = usuarioRepository;
-    }
-
-    @Transactional
-    public void atualizarResponsavelRedzone(Long idRedzone, Long idResponsavel) {
-        
-        Optional<Redzone> redzoneOptional = redzoneRepository.findById(idRedzone);
-        Optional<Usuario> novoResponsavelOptional = usuarioRepository.findById(idResponsavel);
-
-        if (redzoneOptional.isPresent() && novoResponsavelOptional.isPresent()) {
-            Redzone redzone = redzoneOptional.get();
-            Usuario novoResponsavel = novoResponsavelOptional.get();
-
-            
-            redzone.setResponsavel_id(novoResponsavel);
-            redzoneRepository.save(redzone);
-        } else {
-            throw new IllegalArgumentException("Redzone ou novo responsável não encontrados.");
-        }
-    }
+   
 }

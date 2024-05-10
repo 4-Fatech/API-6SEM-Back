@@ -1,9 +1,9 @@
 package com.fatech.service;
 
 import com.fatech.entity.Departamento;
-import com.fatech.entity.Usuario;
+
 import com.fatech.repository.DepartamentoRepository;
-import com.fatech.repository.UsuarioRepository;
+
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.web.server.ResponseStatusException;
 
 
@@ -101,24 +101,6 @@ public class DepartamentoService {
             departamentoRepository.save(departamento); 
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Departamento não encontrado para o ID fornecido");
-        }
-    }
-    private final UsuarioRepository usuarioRepository;
-
-    
-    public DepartamentoService(DepartamentoRepository departamentoRepository, UsuarioRepository usuarioRepository) {
-        this.departamentoRepository = departamentoRepository;
-        this.usuarioRepository = usuarioRepository;
-    }
-
-    @Transactional(readOnly = true)
-    public List<Departamento> listarDepartamentosPorResponsavel(Long idResponsavel) {
-        Optional<Usuario> responsavelOptional = usuarioRepository.findById(idResponsavel);
-        if (responsavelOptional.isPresent()) {
-            Usuario responsavel = responsavelOptional.get();
-            return departamentoRepository.findByResponsavel(responsavel);
-        } else {
-            throw new IllegalArgumentException("Usuário responsável não encontrado.");
         }
     }
 

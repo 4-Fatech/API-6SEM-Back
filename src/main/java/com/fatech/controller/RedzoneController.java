@@ -96,19 +96,5 @@ public class RedzoneController {
         return ResponseEntity.ok().body(redzoneAtualizada);
     }
     
-    @GetMapping("/departamentos/{idDepartamento}")
-    public ResponseEntity<List<Redzone>> listarRedzonesPorDepartamento(@PathVariable Long idDepartamento) {
-        List<Redzone> redzones = redzoneService.listarRedzonesPorDepartamento(idDepartamento);
-        return new ResponseEntity<>(redzones, HttpStatus.OK);
-    }
-
-    @PutMapping("/redzone/{idRedzone}/responsavel/{idResponsavel}")
-    public ResponseEntity<String> atualizarResponsavelRedzone(
-            @PathVariable Long idRedzone, 
-            @PathVariable Long idResponsavel) {
-        
-        redzoneService.atualizarResponsavelRedzone(idRedzone, idResponsavel);
-        
-        return new ResponseEntity<>("Responsável pela Redzone atualizado com sucesso.", HttpStatus.OK);
-    }
+    
 }
