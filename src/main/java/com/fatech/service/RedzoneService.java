@@ -5,7 +5,6 @@ import com.fatech.repository.RedzoneRepository;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -78,7 +77,7 @@ public class RedzoneService {
         }
         if (redzone.getNome_redzone() == null ||
                 redzone.getNome_redzone().isBlank() ||
-                redzone.getCamera() == null || 
+                redzone.getCamera() == null ||
                 redzone.getCamera().isBlank() ||
                 redzone.getCapacidade_maxima() <= 0 ||
                 redzone.getId_departamento() == null) {
@@ -97,7 +96,6 @@ public class RedzoneService {
         redzoneExistente.setCapacidade_maxima(redzone.getCapacidade_maxima());
         redzoneExistente.setId_departamento(redzone.getId_departamento());
 
-  
         if (redzone.getResponsavel_id() != null) {
             redzoneExistente.setResponsavel_id(redzone.getResponsavel_id());
         }
@@ -105,5 +103,7 @@ public class RedzoneService {
 
         return redzoneRepository.save(redzoneExistente);
     }
+
+
 
 }
