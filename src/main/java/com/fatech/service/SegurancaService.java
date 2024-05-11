@@ -1,4 +1,4 @@
-package  com.fatech.service;
+package com.fatech.service;
 
 import java.util.Optional;
 
@@ -23,13 +23,10 @@ public class SegurancaService implements UserDetailsService {
 
         Optional<Usuario> usuarioOp = usuarioRepo.getByEmail(email);
 
-        if (usuarioOp.isEmpty()) {
-            throw new UsernameNotFoundException("Usuário não encontrado!");
-        }
-
         Usuario usuario = usuarioOp.get();
 
-        return User.builder().username(usuario.getEmail()).password(usuario.getSenha()).authorities(usuario.getTipo_usuario())
+        return User.builder().username(usuario.getEmail()).password(usuario.getSenha())
+                .authorities(usuario.getTipo_usuario())
                 .build();
     }
 
