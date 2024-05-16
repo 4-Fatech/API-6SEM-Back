@@ -104,6 +104,9 @@ public class DepartamentoService {
         }
     }
 
-    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER','ROLE_GUARD')")
+    public List<Departamento> getDepartamentosDoResponsavel(Long idUsuario) {
+        return departamentoRepository.findDepartamentosByResponsavelId(idUsuario);
+    }
     
 }
