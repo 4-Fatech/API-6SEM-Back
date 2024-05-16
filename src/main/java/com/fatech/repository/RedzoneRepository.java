@@ -17,4 +17,7 @@ public interface RedzoneRepository extends JpaRepository<Redzone, Long> {
 
    @Query("SELECT r FROM Redzone r WHERE r.id_departamento.id_departamento = :idDepartamento")
     List<Redzone> findByDepartamentoId(@Param("idDepartamento") Long idDepartamento);
+
+    @Query("SELECT r FROM Redzone r WHERE r.responsavel_id.id_usuario = :idResponsavel")
+    List<Redzone> findByResponsavelId(Long idResponsavel);
 }

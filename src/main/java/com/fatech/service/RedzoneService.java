@@ -120,6 +120,10 @@ public class RedzoneService {
         return redzoneRepository.findByDepartamentoId(idDepartamento);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER','ROLE_GUARD')")
+    public List<Redzone> getRedzonesByResponsavelId(Long idResponsavel) {
+        return redzoneRepository.findByResponsavelId(idResponsavel);
+    }
 
    
 }
