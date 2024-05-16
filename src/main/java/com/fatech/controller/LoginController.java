@@ -58,6 +58,7 @@ public class LoginController {
             login.setToken(JwtUtils.generateToken(auth)); 
             login.setAutorizacoes(auth.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+            login.setSenha(null);
             return ResponseEntity.ok(login);
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
