@@ -53,7 +53,9 @@ public class LoginController {
         try {
             Authentication auth = new UsernamePasswordAuthenticationToken(login.getEmail(), login.getSenha());
             auth = authManager.authenticate(auth);
-            login.setToken(JwtUtils.generateToken(auth));
+            login.setId(usuario.getId_usuario());
+            login.setNomeUsuario(usuario.getNome_usuario());
+            login.setToken(JwtUtils.generateToken(auth)); 
             login.setAutorizacoes(auth.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
             return ResponseEntity.ok(login);

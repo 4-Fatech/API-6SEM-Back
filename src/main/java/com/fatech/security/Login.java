@@ -5,6 +5,10 @@ import java.util.List;
 
 public class Login {
 
+    private Long id;
+
+    private String NomeUsuario;
+
     private String email;
 
     private String senha;
@@ -48,6 +52,24 @@ public class Login {
     public void setAutorizacoes(List<String> autorizacoes) {
         this.autorizacoes = autorizacoes;
     }
+
+    public String getNomeUsuario() {
+        return NomeUsuario;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        NomeUsuario = nomeUsuario;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+  
     
     
 }
