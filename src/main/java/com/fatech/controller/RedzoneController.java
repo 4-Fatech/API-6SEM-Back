@@ -100,6 +100,22 @@ public class RedzoneController {
         Redzone redzoneAtualizada = redzoneService.atualizarRedzone(redzone);
         return ResponseEntity.ok().body(redzoneAtualizada);
     }
-
-
+    @Operation(summary = "Buscar redzone por ID do Departamento", description = "Buscar redzone por ID do Departamento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro ao Buscar as Redzones")
+    })
+    @GetMapping("/departamento/{idDepartamento}")
+    public List<Redzone> getRedzonesByDepartamentoId(@PathVariable Long idDepartamento) {
+        return redzoneService.getRedzonesByDepartamentoId(idDepartamento);
+    }
+    @Operation(summary = "Buscar redzone por ID do Responsavel", description = "Buscar redzone por ID  do Responsavel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro ao Buscar as Redzones")
+    })
+    @GetMapping("/responsavel/{idUsuario}")
+    public List<Redzone> getRedzonesByResponsavelId(@PathVariable Long idUsuario) {
+        return redzoneService.getRedzonesByResponsavelId(idUsuario);
+    }
 }

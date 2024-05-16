@@ -1,12 +1,15 @@
 package com.fatech.service;
 
 import com.fatech.entity.Redzone;
+
 import com.fatech.repository.RedzoneRepository;
+
 
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,6 +19,7 @@ public class RedzoneService {
     @Autowired
     private RedzoneRepository redzoneRepository;
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public Redzone criarRedzone(Redzone redzone) {
 
         if (redzone == null) {
@@ -32,6 +36,7 @@ public class RedzoneService {
         return redzoneRepository.save(redzone);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER','ROLE_GUARD')")
     public List<Redzone> buscarTodasRedzones() {
         List<Redzone> redzones = redzoneRepository.findAll();
         if (redzones.isEmpty()) {
@@ -40,6 +45,7 @@ public class RedzoneService {
         return redzones;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER','ROLE_GUARD')")
     public Redzone buscarRedzonePorId(long id) {
         if (id <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID de redzone inválido");
@@ -51,6 +57,7 @@ public class RedzoneService {
         return redzoneOptional.get();
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public void excluirRedzone(long id) {
 
         if (!redzoneRepository.existsById(id)) {
@@ -59,6 +66,7 @@ public class RedzoneService {
         redzoneRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public void deletarRedzone(long id) {
         Optional<Redzone> optionalRedzone = redzoneRepository.findById(id);
         if (optionalRedzone.isPresent()) {
@@ -70,6 +78,7 @@ public class RedzoneService {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public Redzone atualizarRedzone(Redzone redzone) {
 
         if (redzone.getId_redzone() == null) {
@@ -103,7 +112,15 @@ public class RedzoneService {
 
         return redzoneRepository.save(redzoneExistente);
     }
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Redzone> getRedzonesByDepartamentoId(Long idDepartamento) {
+        return redzoneRepository.findByDepartamentoId(idDepartamento);
+    }
 
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER','ROLE_GUARD')")
+    public List<Redzone> getRedzonesByResponsavelId(Long idResponsavel) {
+        return redzoneRepository.findByResponsavelId(idResponsavel);
+    }
 
 }
