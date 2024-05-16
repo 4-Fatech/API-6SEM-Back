@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,6 +22,7 @@ public class RegistroDepartamentoService {
     @Autowired
     private RedzoneRepository redzoneRepository;
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     public List<Map<String, Object>> buscarRedzonePorDepartamento(Long id_departamento) {
         if (id_departamento <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID do Departamento inválido");
@@ -45,7 +47,7 @@ public class RegistroDepartamentoService {
         return redzonesModificados;
     }
 
-  
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     public List<Redzone> buscarIdRedzoneByDepartamento(Long id_departamento) {
         if (id_departamento <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID do Departamento inválido");
