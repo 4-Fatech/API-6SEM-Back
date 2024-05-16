@@ -114,6 +114,11 @@ public class RedzoneService {
 
         return redzoneRepository.save(redzoneExistente);
     }
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Redzone> getRedzonesByDepartamentoId(Long idDepartamento) {
+        return redzoneRepository.findByDepartamentoId(idDepartamento);
+    }
 
 
    
