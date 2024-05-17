@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,8 @@ public class UsuarioService {
                 usuario.getMatricula_empresa().isBlank() ||
                 usuario.getNome_usuario() == null ||
                 usuario.getNome_usuario().isBlank() ||
+                usuario.getSenha() == null ||
+                usuario.getSenha().isBlank() ||
                 usuario.getTipo_usuario() == null ||
                 usuario.getTipo_usuario().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados invalidos");
@@ -58,7 +61,26 @@ public class UsuarioService {
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public Usuario atualizarUsuario(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+        Optional<Usuario> usuarioExistenteOp = usuarioRepository.findById(usuario.getId_usuario());
+        if (usuarioExistenteOp.isPresent()) {
+            Usuario usuarioExistente = usuarioExistenteOp.get();
+
+            
+            if (usuario.getSenha() == null || usuario.getSenha().isBlank()) {
+                usuario.setSenha(usuarioExistente.getSenha());
+            }
+
+            
+            usuarioExistente.setNome_usuario(usuario.getNome_usuario());
+            usuarioExistente.setEmail(usuario.getEmail());
+            usuarioExistente.setMatricula_empresa(usuario.getMatricula_empresa());
+            usuarioExistente.setTipo_usuario(usuario.getTipo_usuario());
+            usuarioExistente.setUpdate_at(LocalDateTime.now());
+
+            return usuarioRepository.save(usuarioExistente);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado");
+        }
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public void desativarUsuario(long id) {
