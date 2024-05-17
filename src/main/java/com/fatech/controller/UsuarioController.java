@@ -77,4 +77,6 @@ public class UsuarioController {
         usuarioService.desativarUsuario(id);
         return ResponseEntity.noContent().build();
     }
+
+    
 }

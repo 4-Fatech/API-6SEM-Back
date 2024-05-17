@@ -19,6 +19,21 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
+    public List<Usuario> findGuards() {
+        return usuarioRepository.findGuards("ROLE_GUARD");
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public List<Usuario> findAdmins() {
+        return usuarioRepository.findAdmins("ROLE_ADMIN");
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public List<Usuario> findManagers() {
+        return usuarioRepository.findManagers("ROLE_MANAGER");
+    }
    
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public Usuario criarUsuario(Usuario usuario) {
