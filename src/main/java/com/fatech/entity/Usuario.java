@@ -34,7 +34,7 @@ public class Usuario {
     @Column(name = "matricula_empresa", nullable = false, unique = true)
     private String matricula_empresa;
 
-    @Column(name = "senha", nullable = false)
+    @Column(name = "senha")
     private String senha;
 
     @Column(name = "tipo_usuario", nullable = false)
@@ -61,9 +61,12 @@ public class Usuario {
     }
 
     public void setSenha(String senha) {
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        this.senha = encoder.encode(senha);
+        if (senha != null && !senha.isBlank()) {
+            PasswordEncoder encoder = new BCryptPasswordEncoder();
+            this.senha = encoder.encode(senha);
+        }
     }
+    
 
     public void setId_usuario(Long id_usuario) {
         this.id_usuario = id_usuario;
