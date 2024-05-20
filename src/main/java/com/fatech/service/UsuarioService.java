@@ -35,7 +35,7 @@ public class UsuarioService {
         return usuarioRepository.findManagers("ROLE_MANAGER");
     }
    
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     public Usuario criarUsuario(Usuario usuario) {
         if (usuario == null ||
                 usuario.getEmail() == null ||
