@@ -2,6 +2,9 @@ package com.fatech.entity;
 
 import java.time.LocalDateTime;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
@@ -31,8 +34,8 @@ public class Usuario {
     @Column(name = "matricula_empresa", nullable = false, unique = true)
     private String matricula_empresa;
 
-    // @Column(name = "senha", nullable = false)
-    // private String senha;
+    @Column(name = "senha")
+    private String senha;
 
     @Column(name = "tipo_usuario", nullable = false)
     private String tipo_usuario;
@@ -52,6 +55,18 @@ public class Usuario {
     public Long getId_usuario() {
         return id_usuario;
     }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        if (senha != null && !senha.isBlank()) {
+            PasswordEncoder encoder = new BCryptPasswordEncoder();
+            this.senha = encoder.encode(senha);
+        }
+    }
+    
 
     public void setId_usuario(Long id_usuario) {
         this.id_usuario = id_usuario;
@@ -81,13 +96,6 @@ public class Usuario {
         this.matricula_empresa = matricula_empresa;
     }
 
-    // public String getSenha() {
-    //     return senha;
-    // }
-
-    // public void setSenha(String senha) {
-    //     this.senha = senha;
-    // }
 
     public String getTipo_usuario() {
         return tipo_usuario;

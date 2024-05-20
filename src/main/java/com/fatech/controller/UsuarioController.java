@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -77,4 +77,6 @@ public class UsuarioController {
         usuarioService.desativarUsuario(id);
         return ResponseEntity.noContent().build();
     }
+
+    
 }

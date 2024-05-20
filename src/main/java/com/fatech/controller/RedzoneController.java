@@ -1,6 +1,8 @@
 package com.fatech.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fatech.entity.Redzone;
+import com.fatech.entity.Views;
 import com.fatech.service.RedzoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import java.util.Map;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,6 +36,7 @@ public class RedzoneController {
         Redzone novaRedzone = redzoneService.criarRedzone(redzone);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaRedzone);
     }
+
     @Operation(summary = "Buscar todas as redzones", description = "Retorna todas as redzones")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Retorna todas as redzones"),
@@ -63,6 +66,7 @@ public class RedzoneController {
         }
         return ResponseEntity.ok(redzone);
     }
+
     @Operation(summary = "Excluir Definitivamente uma redzone por ID", description = "Exclui Definitivamente uma redzone por ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Redzone excluída com sucesso"),
@@ -84,6 +88,7 @@ public class RedzoneController {
         redzoneService.deletarRedzone(id);
         return ResponseEntity.noContent().build();
     }
+
     @Operation(summary = "Atualizar uma redzone existente", description = "Atualiza uma redzone existente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Redzone atualizada com sucesso"),
@@ -94,5 +99,23 @@ public class RedzoneController {
         redzone.setId_redzone(id);
         Redzone redzoneAtualizada = redzoneService.atualizarRedzone(redzone);
         return ResponseEntity.ok().body(redzoneAtualizada);
+    }
+    @Operation(summary = "Buscar redzone por ID do Departamento", description = "Buscar redzone por ID do Departamento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro ao Buscar as Redzones")
+    })
+    @GetMapping("/departamento/{idDepartamento}")
+    public List<Redzone> getRedzonesByDepartamentoId(@PathVariable Long idDepartamento) {
+        return redzoneService.getRedzonesByDepartamentoId(idDepartamento);
+    }
+    @Operation(summary = "Buscar redzone por ID do Responsavel", description = "Buscar redzone por ID  do Responsavel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro ao Buscar as Redzones")
+    })
+    @GetMapping("/responsavel/{idUsuario}")
+    public List<Redzone> getRedzonesByResponsavelId(@PathVariable Long idUsuario) {
+        return redzoneService.getRedzonesByResponsavelId(idUsuario);
     }
 }
