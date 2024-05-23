@@ -74,7 +74,7 @@ public class UsuarioService {
         return usuarioOp.get();
 
     }
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_GUARD')")
     public Usuario atualizarUsuario(Usuario usuario) {
         Optional<Usuario> usuarioExistenteOp = usuarioRepository.findById(usuario.getId_usuario());
         if (usuarioExistenteOp.isPresent()) {
@@ -85,7 +85,10 @@ public class UsuarioService {
                 usuario.setSenha(usuarioExistente.getSenha());
             }
 
-            
+            if (usuario.getTipo_usuario() == null || usuario.getTipo_usuario().isBlank()) {
+                usuario.setTipo_usuario(usuarioExistente.getTipo_usuario());
+            }
+
             usuarioExistente.setNome_usuario(usuario.getNome_usuario());
             usuarioExistente.setEmail(usuario.getEmail());
             usuarioExistente.setMatricula_empresa(usuario.getMatricula_empresa());
