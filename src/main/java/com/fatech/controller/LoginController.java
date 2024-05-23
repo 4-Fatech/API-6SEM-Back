@@ -55,6 +55,7 @@ public class LoginController {
             auth = authManager.authenticate(auth);
             login.setId(usuario.getId_usuario());
             login.setNomeUsuario(usuario.getNome_usuario());
+            login.setMatricula(usuario.getMatricula_empresa());
             login.setToken(JwtUtils.generateToken(auth)); 
             login.setAutorizacoes(auth.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
