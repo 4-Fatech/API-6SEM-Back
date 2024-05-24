@@ -1,7 +1,9 @@
 package com.fatech.service;
 
 import com.fatech.entity.Departamento;
+
 import com.fatech.repository.DepartamentoRepository;
+
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -11,7 +13,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+
 import org.springframework.web.server.ResponseStatusException;
 
 
@@ -21,6 +25,7 @@ public class DepartamentoService {
     @Autowired
     private DepartamentoRepository departamentoRepository;
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public Departamento criarDepartamento(Departamento departamento) {
         if (departamento == null || 
             departamento.getNome_departamento() == null ||
@@ -30,6 +35,7 @@ public class DepartamentoService {
         }
         return departamentoRepository.save(departamento);
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public Departamento atualizarDepartamento(Departamento departamento) {
         if (departamento == null || 
             departamento.getId_departamento() <= 0 ||
@@ -52,6 +58,7 @@ public class DepartamentoService {
        
         return departamentoRepository.save(departamento);
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public List<Departamento> buscarTodosDepartamentos() {
         List<Departamento> departamentos = departamentoRepository.findAll();
         if (departamentos.isEmpty()) {
@@ -62,7 +69,7 @@ public class DepartamentoService {
                 .collect(Collectors.toList());
         return departamentosOrdenados;
     }
-    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public Departamento buscarDepartamentoPorId(long id) {
         if (id <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID de departamento inválido");
@@ -82,7 +89,7 @@ public class DepartamentoService {
         }
         departamentoRepository.deleteById(id);
     }
-    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     public void deletarDepartamento(long id) {
         if (id <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID de departamento inválido");
@@ -97,6 +104,9 @@ public class DepartamentoService {
         }
     }
 
-    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER','ROLE_GUARD')")
+    public List<Departamento> getDepartamentosDoResponsavel(Long idUsuario) {
+        return departamentoRepository.findDepartamentosByResponsavelId(idUsuario);
+    }
     
 }

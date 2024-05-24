@@ -1,7 +1,9 @@
 package com.fatech.controller;
 
 import com.fatech.entity.Departamento;
+
 import com.fatech.service.DepartamentoService;
+
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class DepartamentoController {
 
     @Autowired
     private DepartamentoService departamentoService;
+
 
 
     @Operation(summary = "Criar um departamento", description = "Cria um novo departamento")
@@ -94,5 +97,14 @@ public class DepartamentoController {
         departamentoService.deletarDepartamento(id);
         return ResponseEntity.noContent().build();
     }
-    
+    @Operation(summary = "Buscar o Departamento do Responsavel por ID", description = "Buscar o Departamento do Responsavel por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Departamentos Localizados com Sucesso"),
+            @ApiResponse(responseCode = "404", description = "Departamentos não Encontrados")
+    })
+    @GetMapping("/responsavel/{idUsuario}")
+    public List<Departamento> getDepartamentosDoResponsavel(@PathVariable Long idUsuario) {
+        return departamentoService.getDepartamentosDoResponsavel(idUsuario);
+    }
+
 }

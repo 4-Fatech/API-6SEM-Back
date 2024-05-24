@@ -2,6 +2,7 @@ package com.fatech.entity;
 
 import java.time.LocalDateTime;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
@@ -41,6 +42,8 @@ public class Departamento {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "update_at", nullable = false)
     private LocalDateTime update_at;
+
+    
 
     public LocalDateTime getDelete_at() {
         return delete_at;

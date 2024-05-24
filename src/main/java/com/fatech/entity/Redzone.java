@@ -3,6 +3,7 @@ package com.fatech.entity;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,8 +23,10 @@ public class Redzone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_redzone")
+    @JsonView(Views.Redzone.class)
     private Long id_redzone;
 
+    @JsonView(Views.Redzone.class)
     @Column(name = "nome_redzone", nullable = false, unique = true)
     private String nome_redzone;
 
