@@ -39,7 +39,7 @@ public class RegistroDepartamentoService {
                 .map(redzone -> {
                     Map<String, Object> redzoneModificado = new HashMap<>(redzone);
                     boolean entrada = (boolean) redzoneModificado.get("entrada");
-                    redzoneModificado.put("entrada", entrada ? "Saída" : "Entrada");
+                    redzoneModificado.put("entrada", entrada ? "Entrada" : "Saída");
                     return redzoneModificado;
                 })
                 .collect(Collectors.toList());
