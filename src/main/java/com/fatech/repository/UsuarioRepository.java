@@ -14,6 +14,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Optional<Usuario> findByEmail(String email);
 
+    // Optional<Usuario> findByEmailAndCodigoVerificacao(String email, String codigo);
+
     @Query("SELECT u FROM Usuario u WHERE u.tipo_usuario = :tipoUsuario")
     List<Usuario> findGuards(@Param("tipoUsuario") String tipoUsuario);
 
