@@ -8,17 +8,27 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import java.time.Duration;
 
 @Service
 public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    private Map<String, VerificationCode> verificationCodes = new ConcurrentHashMap<>();
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     public List<Usuario> findGuards() {
@@ -74,7 +84,7 @@ public class UsuarioService {
         return usuarioOp.get();
 
     }
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_GUARD')")
     public Usuario atualizarUsuario(Usuario usuario) {
         Optional<Usuario> usuarioExistenteOp = usuarioRepository.findById(usuario.getId_usuario());
         if (usuarioExistenteOp.isPresent()) {
@@ -85,7 +95,10 @@ public class UsuarioService {
                 usuario.setSenha(usuarioExistente.getSenha());
             }
 
-            
+            if (usuario.getTipo_usuario() == null || usuario.getTipo_usuario().isBlank()) {
+                usuario.setTipo_usuario(usuarioExistente.getTipo_usuario());
+            }
+
             usuarioExistente.setNome_usuario(usuario.getNome_usuario());
             usuarioExistente.setEmail(usuario.getEmail());
             usuarioExistente.setMatricula_empresa(usuario.getMatricula_empresa());
@@ -108,5 +121,75 @@ public class UsuarioService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Erro ao desativar usuário.");
         }
     }
+    public void enviarCodigoVerificacaoPorEmail(String email) {
+    
+    Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(email);
+    if (optionalUsuario.isPresent()) {
+        String codigoVerificacao = gerarCodigoVerificacao();
+        
+        verificationCodes.put(email, new VerificationCode(codigoVerificacao, Instant.now()));
+        try {
+            emailService.enviarEmail(email, "template_a5flxiu", "64skWYeEq_nk8m4PE", "{\"email\":\"" + email + "\", \"codigoVerificacao\":\"" + codigoVerificacao + "\"}");
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao enviar email: " + e.getMessage());
+        }
+    } else {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+    }
+}
+
+
+private static class VerificationCode {
+    private String code;
+    private Instant createdAt;
+
+    public VerificationCode(String code, Instant createdAt) {
+        this.code = code;
+        this.createdAt = createdAt;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+}
+
+
+public boolean verificarCodigoVerificacao(String email, String codigo) {
+    VerificationCode verificationCode = verificationCodes.get(email);
+    if (verificationCode != null && verificationCode.getCode().equals(codigo)) {
+        
+        return Duration.between(verificationCode.getCreatedAt(), Instant.now()).toMinutes() <= 5;
+    }
+    return false;
+}
+public void alterarSenha(String email, String codigo, String novaSenha) {
+    
+    if (verificarCodigoVerificacao(email, codigo)) {
+        Optional<Usuario> optionalUsuario = usuarioRepository.findByEmail(email);
+        if (optionalUsuario.isPresent()) {
+            Usuario usuario = optionalUsuario.get();
+            usuario.setSenha(novaSenha);
+            usuarioRepository.save(usuario);
+            
+            verificationCodes.remove(email);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+        }
+    } else {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Código de verificação inválido ou expirado");
+    }
+}
+    
+    private String gerarCodigoVerificacao() {
+        Random random = new Random();
+        int codigo = 100000 + random.nextInt(900000); 
+        return String.valueOf(codigo);
+    }
 
 }
+
+

@@ -17,6 +17,16 @@ public class Login {
 
     private String token;
 
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    private String matricula;
+
     public Login() {
         setAutorizacoes(new ArrayList<String>());
     }
