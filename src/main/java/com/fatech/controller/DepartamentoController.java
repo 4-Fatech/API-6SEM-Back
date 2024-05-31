@@ -34,7 +34,7 @@ public class DepartamentoController {
             @ApiResponse(responseCode = "200", description = "Retorna todos os departamentos com mais redzones"),
             @ApiResponse(responseCode = "400", description = "Não há disponibilidade")
     })
-    @GetMapping("/mais-redzones")
+    @GetMapping("/maisredzones")
     public Departamento getDepartamentoWithMostRedzones() {
         return departamentoService.getDepartamentoWithMostRedzones();
     }

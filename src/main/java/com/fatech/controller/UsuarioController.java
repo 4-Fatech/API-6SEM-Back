@@ -30,7 +30,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "200", description = "Retorna todos os departamentos por usuários"),
             @ApiResponse(responseCode = "400", description = "Não há disponibilidade")
     })
-    @GetMapping("/departamentos-por-usuario")
+    @GetMapping("/departamentosporusuario")
     public List<Object[]> getDepartamentosByUsuario() {
         return usuarioService.getDepartamentosByUsuario();
     }
@@ -40,7 +40,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "200", description = "Retorna todos os departamentos por usuários"),
             @ApiResponse(responseCode = "400", description = "Não há disponibilidade")
     })
-    @GetMapping("/mais-departamentos")
+    @GetMapping("/maisdepartamentos")
     public Usuario getUsuarioWithMostDepartamentos() {
         return usuarioService.getUsuarioWithMostDepartamentos();
     }
