@@ -30,6 +30,11 @@ public class UsuarioService {
 
     private Map<String, VerificationCode> verificationCodes = new ConcurrentHashMap<>();
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Object[]> getUsuarioWithMostRedzones() {
+        return usuarioRepository.findUsuarioWithMostRedzones();
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_MANAGER')")
     public List<Usuario> findGuards() {
         return usuarioRepository.findGuards("ROLE_GUARD");

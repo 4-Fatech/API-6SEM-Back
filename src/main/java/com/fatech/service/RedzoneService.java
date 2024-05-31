@@ -20,6 +20,21 @@ public class RedzoneService {
     private RedzoneRepository redzoneRepository;
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Object[]> getRedzoneCountByDepartamento() {
+        return redzoneRepository.findRedzoneCountByDepartamento();
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Object[]> getRedzoneCountByUsuario() {
+        return redzoneRepository.findRedzoneCountByUsuario();
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public Long getTotalRedzoneCount() {
+        return redzoneRepository.findTotalRedzoneCount();
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public Redzone criarRedzone(Redzone redzone) {
 
         if (redzone == null) {

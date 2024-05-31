@@ -14,7 +14,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Optional<Usuario> findByEmail(String email);
 
-    // Optional<Usuario> findByEmailAndCodigoVerificacao(String email, String codigo);
+   
 
     @Query("SELECT u FROM Usuario u WHERE u.tipo_usuario = :tipoUsuario")
     List<Usuario> findGuards(@Param("tipoUsuario") String tipoUsuario);
@@ -24,5 +24,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query("SELECT u FROM Usuario u WHERE u.tipo_usuario = 'ROLE_MANAGER'")
     List<Usuario> findManagers(@Param("tipoUsuario") String tipoUsuario);
+
+    
+    @Query("SELECT u, COUNT(r) FROM Redzone r JOIN r.responsavel_id u GROUP BY u ORDER BY COUNT(r) DESC")
+    List<Object[]> findUsuarioWithMostRedzones();
  
 }

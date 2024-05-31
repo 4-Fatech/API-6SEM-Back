@@ -24,6 +24,17 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Operation(summary = "Buscar todos os usuários com mais redzones", description = "Buscar todos os usuários com mais redzones")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todos os usuários com mais redzones"),
+            @ApiResponse(responseCode = "400", description = "Não há retorno")
+    })
+    @GetMapping("/usuario-com-mais-redzones")
+    public List<Object[]> getUsuarioWithMostRedzones() {
+        return usuarioService.getUsuarioWithMostRedzones();
+    }
+
+
     @Operation(summary = "Criar um usuário", description = "Cria um novo usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso"),

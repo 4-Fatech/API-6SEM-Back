@@ -31,6 +31,18 @@ public interface RedzoneRepository extends JpaRepository<Redzone, Long> {
 
     @Query(value= "SELECT * from redzone where id_departamento = :id_departamento", nativeQuery = true)
     public List<Redzone> buscarIdRedzoneByDepartamento(@Param("id_departamento") Long idDepartamento);
+
+    
+    @Query("SELECT d.nome_departamento, COUNT(r) FROM Redzone r JOIN r.id_departamento d GROUP BY d.nome_departamento")
+    List<Object[]> findRedzoneCountByDepartamento();
+
+    
+    @Query("SELECT u.nome_usuario, COUNT(r) FROM Redzone r JOIN r.responsavel_id u GROUP BY u.nome_usuario")
+    List<Object[]> findRedzoneCountByUsuario();
+
+    
+    @Query("SELECT COUNT(r) FROM Redzone r")
+    Long findTotalRedzoneCount();
     
 
 }
