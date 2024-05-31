@@ -35,7 +35,7 @@ public class LogController {
             @ApiResponse(responseCode = "200", description = "Retorna redzones com mais registros"),
             @ApiResponse(responseCode = "400", description = "Não existe nenhum registro")
     })
-    @GetMapping("/redzone-com-mais-logs")
+    @GetMapping("/redzonemaislogs")
     public List<Object[]> getRedzoneWithMostLogs() {
         return service.getRedzoneWithMostLogs();
     }

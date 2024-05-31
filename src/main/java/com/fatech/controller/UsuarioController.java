@@ -29,7 +29,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "200", description = "Retorna todos os usuários com mais redzones"),
             @ApiResponse(responseCode = "400", description = "Não há retorno")
     })
-    @GetMapping("/usuario-com-mais-redzones")
+    @GetMapping("/usuariocommaisredzones")
     public List<Object[]> getUsuarioWithMostRedzones() {
         return usuarioService.getUsuarioWithMostRedzones();
     }

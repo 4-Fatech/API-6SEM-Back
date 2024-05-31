@@ -31,7 +31,7 @@ public class RedzoneController {
             @ApiResponse(responseCode = "200", description = "Retorna todas as Contagens por Departamento"),
             @ApiResponse(responseCode = "400", description = "Não há retorno disponivel")
     })
-    @GetMapping("/contagem-por-departamento")
+    @GetMapping("/contagempordepartamento")
     public List<Object[]> getRedzoneCountByDepartamento() {
         return redzoneService.getRedzoneCountByDepartamento();
     }
@@ -42,7 +42,7 @@ public class RedzoneController {
             @ApiResponse(responseCode = "200", description = "Retorna todas as  Contagens por usuario"),
             @ApiResponse(responseCode = "400", description = "Não há retorno disponivel")
     })
-    @GetMapping("/contagem-por-usuario")
+    @GetMapping("/contagemporusuario")
     public List<Object[]> getRedzoneCountByUsuario() {
         return redzoneService.getRedzoneCountByUsuario();
     }
@@ -53,7 +53,7 @@ public class RedzoneController {
             @ApiResponse(responseCode = "200", description = "Retorna a Contagem Total de Redzones"),
             @ApiResponse(responseCode = "400", description = "Não há retorno disponivel")
     })
-    @GetMapping("/total-contagem")
+    @GetMapping("/totalcontagem")
     public Long getTotalRedzoneCount() {
         return redzoneService.getTotalRedzoneCount();
     }
