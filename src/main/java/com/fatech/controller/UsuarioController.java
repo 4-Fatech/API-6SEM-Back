@@ -24,6 +24,27 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    
+    @Operation(summary = "Buscar quantidade departamento por usuario", description = "Retorna todos os departamentos por usuários")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todos os departamentos por usuários"),
+            @ApiResponse(responseCode = "400", description = "Não há disponibilidade")
+    })
+    @GetMapping("/departamentos-por-usuario")
+    public List<Object[]> getDepartamentosByUsuario() {
+        return usuarioService.getDepartamentosByUsuario();
+    }
+
+    @Operation(summary = "Usuário com mais departamentos registrados", description = "Retorna Usuário com mais departamentos registrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todos os departamentos por usuários"),
+            @ApiResponse(responseCode = "400", description = "Não há disponibilidade")
+    })
+    @GetMapping("/mais-departamentos")
+    public Usuario getUsuarioWithMostDepartamentos() {
+        return usuarioService.getUsuarioWithMostDepartamentos();
+    }
+
     @Operation(summary = "Criar um usuário", description = "Cria um novo usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso"),
