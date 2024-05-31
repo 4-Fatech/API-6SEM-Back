@@ -28,5 +28,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
     @Query("SELECT u, COUNT(r) FROM Redzone r JOIN r.responsavel_id u GROUP BY u ORDER BY COUNT(r) DESC")
     List<Object[]> findUsuarioWithMostRedzones();
+
+     
+     @Query("SELECT COUNT(u) FROM Usuario u")
+     Long findTotalUsuarioCount();
+ 
+     
+     @Query("SELECT u.tipo_usuario, COUNT(u) FROM Usuario u GROUP BY u.tipo_usuario")
+     List<Object[]> findUsuarioCountByTipoUsuario();
  
 }
