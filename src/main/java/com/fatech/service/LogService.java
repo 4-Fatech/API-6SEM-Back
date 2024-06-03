@@ -19,6 +19,11 @@ public class LogService {
     @Autowired
     private LogRepository logRepo;
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Object[]> getRedzoneWithMostLogs() {
+        return logRepo.findRedzoneWithMostLogs();
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER','ROLE_GUARD')")
     public List<Log> findLogsByRedzoneId(Redzone redzoneId) {
         return logRepo.findByRedzoneId(redzoneId);

@@ -26,6 +26,30 @@ public class RedzoneController {
     @Autowired
     private RedzoneService redzoneService;
 
+  
+
+    
+    @Operation(summary = "Contagem por usuario", description = "Retorna todas as Contagens por usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todas as  Contagens por usuario"),
+            @ApiResponse(responseCode = "400", description = "Não há retorno disponivel")
+    })
+    @GetMapping("/contagemporusuario")
+    public List<Object[]> getRedzoneCountByUsuario() {
+        return redzoneService.getRedzoneCountByUsuario();
+    }
+
+    
+    @Operation(summary = "Contagem Total de Redzones", description = "Contagem Total de Redzones")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna a Contagem Total de Redzones"),
+            @ApiResponse(responseCode = "400", description = "Não há retorno disponivel")
+    })
+    @GetMapping("/totalcontagem")
+    public Long getTotalRedzoneCount() {
+        return redzoneService.getTotalRedzoneCount();
+    }
+
     @Operation(summary = "Criar uma redzone", description = "Cria uma nova redzone")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Redzone criada com sucesso"),

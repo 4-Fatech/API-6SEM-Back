@@ -15,5 +15,9 @@ public interface LogRepository extends JpaRepository<Log, Long>{
     
     @Query("SELECT l FROM Log l WHERE l.redzoneId = :redzoneId AND l.data BETWEEN :startDate AND :endDate")
     List<Log> findByRedzoneIdAndDateRange(@Param("redzoneId") Redzone redzoneId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    
+    
+    @Query("SELECT l.redzoneId, COUNT(l) FROM Log l GROUP BY l.redzoneId ORDER BY COUNT(l) DESC")
+    List<Object[]> findRedzoneWithMostLogs();
 
 }
