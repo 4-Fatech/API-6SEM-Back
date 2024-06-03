@@ -24,6 +24,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query("SELECT u FROM Usuario u WHERE u.tipo_usuario = 'ROLE_MANAGER'")
     List<Usuario> findManagers(@Param("tipoUsuario") String tipoUsuario);
+
     
     @Query("SELECT u.nome_usuario, COUNT(d) AS numDepartamentos FROM Usuario u " +
            "JOIN Departamento d ON u.id_usuario = d.responsavel_id.id_usuario " +
@@ -35,4 +36,18 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
            "GROUP BY d.responsavel_id.id_usuario " +
            "ORDER BY COUNT(d.id_departamento) DESC LIMIT 1)")
     Usuario findUsuarioWithMostDepartamentos();
+
+
+    
+    @Query("SELECT u, COUNT(r) FROM Redzone r JOIN r.responsavel_id u GROUP BY u ORDER BY COUNT(r) DESC")
+    List<Object[]> findUsuarioWithMostRedzones();
+
+     
+     @Query("SELECT COUNT(u) FROM Usuario u")
+     Long findTotalUsuarioCount();
+ 
+     
+     @Query("SELECT u.tipo_usuario, COUNT(u) FROM Usuario u GROUP BY u.tipo_usuario")
+     List<Object[]> findUsuarioCountByTipoUsuario();
+ 
 }

@@ -30,6 +30,16 @@ public class LogController {
     @Autowired
     private LogService service;
 
+    @Operation(summary = "Realiza a busca redzones com mais registros", method = "GET", description = "Realiza a busca redzones com mais registros")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna redzones com mais registros"),
+            @ApiResponse(responseCode = "400", description = "Não existe nenhum registro")
+    })
+    @GetMapping("/redzonemaislogs")
+    public List<Object[]> getRedzoneWithMostLogs() {
+        return service.getRedzoneWithMostLogs();
+    }
+
 
     @Operation(summary = "Realiza a busca de registros", method = "GET", description = "Busca todos os registros")
     @ApiResponses(value = {

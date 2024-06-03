@@ -126,4 +126,14 @@ public class DepartamentoController {
         return departamentoService.getDepartamentosDoResponsavel(idUsuario);
     }
 
+    @Operation(summary = "Contagem de redzones por departamento", description = "Retorna todas as Contagens redzones por departamento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todas as Contagens redzones por departamento"),
+            @ApiResponse(responseCode = "400", description = "Não há retorno disponivel")
+    })
+    @GetMapping("/contagempordepartamento")
+    public List<Object[]> getRedzoneCountByDepartamento() {
+        return departamentoService.getRedzoneCountByDepartamento();
+    }
+
 }
