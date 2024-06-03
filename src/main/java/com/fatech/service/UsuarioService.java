@@ -39,7 +39,7 @@ public class UsuarioService {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public Usuario getUsuarioWithMostDepartamentos() {
         return usuarioRepository.findUsuarioWithMostDepartamentos();
-
+    }
     public Long getTotalUsuarioCount() {
         return usuarioRepository.findTotalUsuarioCount();
     }
