@@ -26,15 +26,7 @@ public class RedzoneController {
     @Autowired
     private RedzoneService redzoneService;
 
-    @Operation(summary = "Contagem por departamento", description = "Retorna todas as Contagens por Departamento")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Retorna todas as Contagens por Departamento"),
-            @ApiResponse(responseCode = "400", description = "Não há retorno disponivel")
-    })
-    @GetMapping("/contagempordepartamento")
-    public List<Object[]> getRedzoneCountByDepartamento() {
-        return redzoneService.getRedzoneCountByDepartamento();
-    }
+  
 
     
     @Operation(summary = "Contagem por usuario", description = "Retorna todas as Contagens por usuario")

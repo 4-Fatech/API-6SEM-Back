@@ -108,5 +108,10 @@ public class DepartamentoService {
     public List<Departamento> getDepartamentosDoResponsavel(Long idUsuario) {
         return departamentoRepository.findDepartamentosByResponsavelId(idUsuario);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Object[]> getRedzoneCountByDepartamento() {
+        return departamentoRepository.findRedzoneCountByDepartamento();
+    }
     
 }
