@@ -29,6 +29,25 @@ public class DepartamentoController {
     private DepartamentoService departamentoService;
 
 
+    @Operation(summary = "Buscar departamento com mais redzones", description = "Retorna todos os departamentos com mais redzones")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todos os departamentos com mais redzones"),
+            @ApiResponse(responseCode = "400", description = "Não há disponibilidade")
+    })
+    @GetMapping("/maisredzones")
+    public Departamento getDepartamentoWithMostRedzones() {
+        return departamentoService.getDepartamentoWithMostRedzones();
+    }
+
+    @Operation(summary = "Total de Departamentos", description = "Retorna total de departamentos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todos o total de departamentos"),
+            @ApiResponse(responseCode = "400", description = "Não há disponibilidade")
+    })
+    @GetMapping("/total")
+    public long getTotalDepartamentos() {
+        return departamentoService.getTotalDepartamentos();
+    }
 
     @Operation(summary = "Criar um departamento", description = "Cria um novo departamento")
     @ApiResponses(value = {
