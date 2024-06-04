@@ -41,8 +41,8 @@ public class UsuarioController {
             @ApiResponse(responseCode = "400", description = "Não há disponibilidade")
     })
     @GetMapping("/maisdepartamentos")
-    public Usuario getUsuarioWithMostDepartamentos() {
-        return usuarioService.getUsuarioWithMostDepartamentos();
+    public List<Object[]> getUsuariosWithDepartamentoCountOrdered() {
+        return usuarioService.getUsuariosWithDepartamentoCountOrdered();
     }
 
 
