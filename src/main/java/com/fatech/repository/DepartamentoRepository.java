@@ -18,11 +18,11 @@ public interface DepartamentoRepository extends JpaRepository <Departamento, Lon
     List<Departamento> findDepartamentosByResponsavelId(Long idUsuario);
    
 
-    @Query("SELECT d FROM Departamento d WHERE d.id_departamento = " +
-           "(SELECT r.id_departamento.id_departamento FROM Redzone r " +
-           "GROUP BY r.id_departamento.id_departamento " +
-           "ORDER BY COUNT(r.id_redzone) DESC LIMIT 1)")
-    Departamento findDepartamentoWithMostRedzones();
+    @Query("SELECT d, COUNT(r) AS redzone_count FROM Departamento d " +
+           "LEFT JOIN Redzone r ON d.id_departamento = r.id_departamento.id_departamento " +
+           "GROUP BY d.id_departamento " +
+           "ORDER BY redzone_count DESC")
+    List<Object[]> findDepartamentosWithRedzoneCountOrdered();
 
     @Query("SELECT COUNT(d) FROM Departamento d")
     long countTotalDepartamentos();

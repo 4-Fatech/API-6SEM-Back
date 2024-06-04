@@ -37,8 +37,8 @@ public class UsuarioService {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
-    public Usuario getUsuarioWithMostDepartamentos() {
-        return usuarioRepository.findUsuarioWithMostDepartamentos();
+    public List<Object[]> getUsuariosWithDepartamentoCountOrdered() {
+        return usuarioRepository.findUsuariosWithDepartamentoCountOrdered();
     }
     public Long getTotalUsuarioCount() {
         return usuarioRepository.findTotalUsuarioCount();

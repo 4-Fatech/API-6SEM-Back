@@ -27,8 +27,8 @@ public class DepartamentoService {
 
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
-    public Departamento getDepartamentoWithMostRedzones() {
-        return departamentoRepository.findDepartamentoWithMostRedzones();
+    public List<Object[]> getDepartamentosWithRedzoneCountOrdered() {
+        return departamentoRepository.findDepartamentosWithRedzoneCountOrdered();
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
