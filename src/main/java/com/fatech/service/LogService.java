@@ -5,13 +5,18 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.fatech.dto.LogDTO;
+import com.fatech.dto.LogSummary;
 import com.fatech.entity.Log;
 import com.fatech.entity.Redzone;
 import com.fatech.repository.LogRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,6 +24,23 @@ import java.util.stream.Collectors;
 public class LogService {
     @Autowired
     private LogRepository logRepo;
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public Map<String, List<LogSummary>> getLogsByDepartmentAndDateRange(long departamentoId, LocalDate startDate, LocalDate endDate) {
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
+
+        List<LogSummary> logSummaries = logRepo.findLogsByDepartmentAndDateRange(departamentoId, startDateTime, endDateTime);
+
+        Map<String, List<LogSummary>> result = new HashMap<>();
+
+        for (LogSummary summary : logSummaries) {
+            String date = summary.getDate();
+            result.computeIfAbsent(date, k -> new ArrayList<>()).add(summary);
+        }
+
+        return result;
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public List<Object[]> countLogsByDateAndRedzone(Long redzoneId, LocalDate startDate, LocalDate endDate) {

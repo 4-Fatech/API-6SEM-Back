@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.fatech.dto.LogSummary;
 import com.fatech.entity.Log;
 import com.fatech.entity.Redzone;
 
@@ -41,4 +42,16 @@ public interface LogRepository extends JpaRepository<Log, Long> {
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
 
-}
+            @Query("SELECT new com.fatech.dto.LogSummary(TO_CHAR(l.data, 'DD/MM/YYYY'), l.redzoneId.nome_redzone, COUNT(l)) " +
+            "FROM Log l " +
+            "WHERE l.redzoneId.id_departamento.id_departamento = :departamentoId " +
+            "AND l.data BETWEEN :startDate AND :endDate " +
+            "GROUP BY TO_CHAR(l.data, 'DD/MM/YYYY'), l.redzoneId.nome_redzone")
+     List<LogSummary> findLogsByDepartmentAndDateRange(
+         @Param("departamentoId") long departamentoId,
+         @Param("startDate") LocalDateTime startDate,
+         @Param("endDate") LocalDateTime endDate
+     );
+ }
+
+
