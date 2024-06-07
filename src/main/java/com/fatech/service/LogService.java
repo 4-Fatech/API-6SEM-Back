@@ -9,6 +9,7 @@ import com.fatech.entity.Log;
 import com.fatech.entity.Redzone;
 import com.fatech.repository.LogRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,17 @@ import java.util.stream.Collectors;
 public class LogService {
     @Autowired
     private LogRepository logRepo;
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Object[]> countLogsByDateAndRedzone(Long redzoneId, LocalDate startDate, LocalDate endDate) {
+        return logRepo.countLogsByDateAndRedzone(redzoneId, startDate, endDate);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_GUARD')")
+    public List<Object[]> findLogCountByRedzoneIdAndDateRangeGroupedByDay(Redzone redzoneId, LocalDateTime startDate,
+            LocalDateTime endDate) {
+        return logRepo.findLogCountByRedzoneIdAndDateRangeGroupedByDay(redzoneId, startDate, endDate);
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public List<Object[]> getRedzoneWithMostLogs() {
