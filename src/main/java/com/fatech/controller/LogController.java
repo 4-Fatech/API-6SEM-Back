@@ -2,6 +2,7 @@ package com.fatech.controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.fatech.dto.LogDTO;
+import com.fatech.dto.LogSummary;
 import com.fatech.entity.Log;
 import com.fatech.entity.Redzone;
 import com.fatech.service.LogService;
@@ -31,6 +33,20 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class LogController {
     @Autowired
     private LogService service;
+
+    @GetMapping("/logs")
+    public Map<String, List<LogSummary>> getLogs(
+        @RequestParam long departamentoId,
+        @RequestParam String startDate,
+        @RequestParam String endDate
+    ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate start = LocalDate.parse(startDate, formatter);
+        LocalDate end = LocalDate.parse(endDate, formatter);
+
+        return service.getLogsByDepartmentAndDateRange(departamentoId, start, end);
+    }
+
 
     @Operation(summary = "Realiza a busca de registros de entrada e saida agrupados por dia", method = "GET", description = "Realiza a busca de registros de entrada e saida agrupados por dia")
     @ApiResponses(value = {
