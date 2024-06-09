@@ -34,6 +34,11 @@ public class LogController {
     @Autowired
     private LogService service;
 
+    @Operation(summary = "Realiza a busca de registros de redzones dentro do intervalo desejado", method = "GET", description = "Realiza a busca de registros de redzones dentro do intervalo desejado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna os registros agrupados por dia e redzone"),
+            @ApiResponse(responseCode = "400", description = "Não encontrado")
+    })
     @GetMapping("/logs")
 public Map<String, List<LogSummary>> getLogs(
     @RequestParam long departamentoId,

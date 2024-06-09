@@ -15,9 +15,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,11 +34,22 @@ public Map<String, List<LogSummary>> getLogsByDepartmentAndDateRange(long depart
 
     List<LogSummary> logSummaries = logRepo.findLogsByDepartmentAndDateRange(departamentoId, startDateTime, endDateTime);
 
-    Map<String, List<LogSummary>> result = new HashMap<>();
+    Map<String, Map<String, LogSummary>> tempResult = new HashMap<>();
 
     for (LogSummary summary : logSummaries) {
         String date = summary.getDate();
-        result.computeIfAbsent(date, k -> new ArrayList<>()).add(summary);
+        String redzoneName = summary.getRedzoneName();
+        
+        tempResult.computeIfAbsent(date, k -> new HashMap<>()).merge(redzoneName, summary, (existing, newSummary) -> {
+            existing.setLogCount(existing.getLogCount() + newSummary.getLogCount());
+            return existing;
+        });
+    }
+
+    // TreeMap to automatically sort by the keys (dates) in ascending order
+    Map<String, List<LogSummary>> result = new TreeMap<>();
+    for (Map.Entry<String, Map<String, LogSummary>> entry : tempResult.entrySet()) {
+        result.put(entry.getKey(), new ArrayList<>(entry.getValue().values()));
     }
 
     return result;
