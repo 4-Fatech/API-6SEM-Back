@@ -46,7 +46,8 @@ public interface LogRepository extends JpaRepository<Log, Long> {
             "FROM Log l " +
             "WHERE l.redzoneId.id_departamento.id_departamento = :departamentoId " +
             "AND l.data BETWEEN :startDate AND :endDate " +
-            "GROUP BY TO_CHAR(l.data, 'DD/MM/YYYY'), l.redzoneId.nome_redzone")
+            "GROUP BY TO_CHAR(l.data, 'DD/MM/YYYY'), l.redzoneId.nome_redzone, l.data " +
+            "ORDER BY l.data ASC")
      List<LogSummary> findLogsByDepartmentAndDateRange(
          @Param("departamentoId") long departamentoId,
          @Param("startDate") LocalDateTime startDate,
