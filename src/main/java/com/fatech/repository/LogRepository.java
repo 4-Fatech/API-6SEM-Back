@@ -42,11 +42,11 @@ public interface LogRepository extends JpaRepository<Log, Long> {
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
 
-            @Query("SELECT new com.fatech.dto.LogSummary(TO_CHAR(l.data, 'DD/MM/YYYY'), l.redzoneId.nome_redzone, COUNT(l)) " +
+            @Query("SELECT new com.fatech.dto.LogSummary(TO_CHAR(l.data, 'YYYY-MM-DD'), l.redzoneId.nome_redzone, COUNT(l)) " +
             "FROM Log l " +
             "WHERE l.redzoneId.id_departamento.id_departamento = :departamentoId " +
             "AND l.data BETWEEN :startDate AND :endDate " +
-            "GROUP BY TO_CHAR(l.data, 'DD/MM/YYYY'), l.redzoneId.nome_redzone, l.data " +
+            "GROUP BY TO_CHAR(l.data, 'YYYY-MM-DD'), l.redzoneId.nome_redzone, l.data " +
             "ORDER BY l.data ASC")
      List<LogSummary> findLogsByDepartmentAndDateRange(
          @Param("departamentoId") long departamentoId,
