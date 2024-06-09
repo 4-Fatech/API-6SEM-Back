@@ -35,17 +35,17 @@ public class LogController {
     private LogService service;
 
     @GetMapping("/logs")
-    public Map<String, List<LogSummary>> getLogs(
-        @RequestParam long departamentoId,
-        @RequestParam String startDate,
-        @RequestParam String endDate
-    ) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate start = LocalDate.parse(startDate, formatter);
-        LocalDate end = LocalDate.parse(endDate, formatter);
+public Map<String, List<LogSummary>> getLogs(
+    @RequestParam long departamentoId,
+    @RequestParam String startDate,
+    @RequestParam String endDate
+) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    LocalDate start = LocalDate.parse(startDate, formatter);
+    LocalDate end = LocalDate.parse(endDate, formatter);
 
-        return service.getLogsByDepartmentAndDateRange(departamentoId, start, end);
-    }
+    return service.getLogsByDepartmentAndDateRange(departamentoId, start, end);
+}
 
 
     @Operation(summary = "Realiza a busca de registros de entrada e saida agrupados por dia", method = "GET", description = "Realiza a busca de registros de entrada e saida agrupados por dia")

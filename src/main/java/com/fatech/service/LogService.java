@@ -26,21 +26,21 @@ public class LogService {
     private LogRepository logRepo;
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
-    public Map<String, List<LogSummary>> getLogsByDepartmentAndDateRange(long departamentoId, LocalDate startDate, LocalDate endDate) {
-        LocalDateTime startDateTime = startDate.atStartOfDay();
-        LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
+public Map<String, List<LogSummary>> getLogsByDepartmentAndDateRange(long departamentoId, LocalDate startDate, LocalDate endDate) {
+    LocalDateTime startDateTime = startDate.atStartOfDay();
+    LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
 
-        List<LogSummary> logSummaries = logRepo.findLogsByDepartmentAndDateRange(departamentoId, startDateTime, endDateTime);
+    List<LogSummary> logSummaries = logRepo.findLogsByDepartmentAndDateRange(departamentoId, startDateTime, endDateTime);
 
-        Map<String, List<LogSummary>> result = new HashMap<>();
+    Map<String, List<LogSummary>> result = new HashMap<>();
 
-        for (LogSummary summary : logSummaries) {
-            String date = summary.getDate();
-            result.computeIfAbsent(date, k -> new ArrayList<>()).add(summary);
-        }
-
-        return result;
+    for (LogSummary summary : logSummaries) {
+        String date = summary.getDate();
+        result.computeIfAbsent(date, k -> new ArrayList<>()).add(summary);
     }
+
+    return result;
+}
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public List<Object[]> countLogsByDateAndRedzone(Long redzoneId, LocalDate startDate, LocalDate endDate) {
