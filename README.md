@@ -31,23 +31,24 @@ O Modelo entidade relacionamento da aplicação está disponível em:
 
 ![mer](https://github.com/4-Fatech/API-6SEM-Back/assets/89141910/a2844199-0f73-4ebc-97db-3e5d9d2bc42f)
 
-#### 🧭 Manual de Instalação Backend
+---
+## 🧭 Manual de Instalação Backend
 
 Para rodar esta aplicação, é necessário ter o [Java JDK 17](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html), o [Maven](https://maven.apache.org/install.html) e o [Git](https://git-scm.com/) instalados em sua máquina.
 
 ##### Clone este repositório
 ```bash
-$ git clone https://github.com/4-Fatech/API-6SEM-Back/
+git clone https://github.com/4-Fatech/API-6SEM-Back/
 ```
 
 ##### Acesse a pasta do projeto no seu terminal/cmd
 ```bash
-$ cd API-6SEM-Back
+cd API-6SEM-Back
 ```
 
 ##### Instale as dependências
 ```bash
-$ mvn install
+mvn install
 ```
 
 ##### Execute a aplicação em modo de desenvolvimento
@@ -56,7 +57,7 @@ Para executar a aplicação sem a necessidade de instalar o Maven, navegue até 
 ##### Execute com Maven
 Se preferir usar o Maven, execute o comando:
 ```bash
-$ mvn spring-boot:run
+mvn spring-boot:run
 ```
 
 ##### Acesse a aplicação
@@ -64,6 +65,8 @@ A aplicação será aberta na porta:8080 - acesse [http://localhost:8080](http:/
 
 ##### Requisitos
 Para rodar o backend, é necessário ter o Java JDK 17 instalado em sua máquina. Certifique-se de que o JDK 17 está configurado nas variáveis de ambiente do sistema.
+
+---
 
 ## 🛠 Tecnologias
 
