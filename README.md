@@ -31,20 +31,37 @@ O Modelo entidade relacionamento da aplicação está disponível em:
 
 ![mer](https://github.com/4-Fatech/API-6SEM-Back/assets/89141910/a2844199-0f73-4ebc-97db-3e5d9d2bc42f)
 
+#### 🧭 Manual de Instalação Backend
 
-#### 🧭 Rodando a aplicação web (Modo desenvolvimento)
-
+##### Clone este repositório
 ```bash
-# Clone este repositório
-$ git clone https://github.com/4-Fatech/API-6SEM-Back/
-# Acesse a pasta do projeto no seu terminal/cmd
-$ cd API-6SEM-Back
-# Execute a aplicação em modo de desenvolvimento -  Obs.:  Certifique-se de ter o JDK 17 em sua máquina e esteja nas variaveis globais.
-Entre no arquivo src\main\java\com\fatech\FatechApplication.java e aperte o ícone de play localizado no canto superior direito da IDE do VsCode. 
-# A aplicação será aberta na porta:8080 - acesse http://localhost:8080
+git clone https://github.com/4-Fatech/API-6SEM-Back/
 ```
 
----
+##### Acesse a pasta do projeto no seu terminal/cmd
+```bash
+cd API-6SEM-Back
+```
+
+##### Instale as dependências
+```bash
+mvn install
+```
+
+##### Execute a aplicação em modo de desenvolvimento
+Para executar a aplicação sem a necessidade de instalar o Maven, navegue até a pasta `src\main\java\com\fatech` e abra o arquivo `FatechApplication.java`. Em seguida, aperte o ícone de play localizado no canto superior direito da IDE do VS Code ou IntelliJ.
+
+##### Execute com Maven
+Se preferir usar o Maven, execute o comando:
+```bash
+mvn spring-boot:run
+```
+
+##### Acesse a aplicação
+A aplicação será aberta na porta:8080 - acesse [http://localhost:8080](http://localhost:8080)
+
+##### Requisitos
+Para rodar o backend, é necessário ter o Java JDK 17 instalado em sua máquina. Certifique-se de que o JDK 17 está configurado nas variáveis de ambiente do sistema.
 
 ## 🛠 Tecnologias
 
