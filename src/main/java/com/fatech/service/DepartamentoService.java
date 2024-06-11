@@ -25,6 +25,17 @@ public class DepartamentoService {
     @Autowired
     private DepartamentoRepository departamentoRepository;
 
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Object[]> getDepartamentosWithRedzoneCountOrdered() {
+        return departamentoRepository.findDepartamentosWithRedzoneCountOrdered();
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public long getTotalDepartamentos() {
+        return departamentoRepository.countTotalDepartamentos();
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public Departamento criarDepartamento(Departamento departamento) {
         if (departamento == null || 
@@ -107,6 +118,11 @@ public class DepartamentoService {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER','ROLE_GUARD')")
     public List<Departamento> getDepartamentosDoResponsavel(Long idUsuario) {
         return departamentoRepository.findDepartamentosByResponsavelId(idUsuario);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Object[]> getRedzoneCountByDepartamento() {
+        return departamentoRepository.findRedzoneCountByDepartamento();
     }
     
 }

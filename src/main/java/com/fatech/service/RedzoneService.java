@@ -19,6 +19,19 @@ public class RedzoneService {
     @Autowired
     private RedzoneRepository redzoneRepository;
 
+    
+  
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Object[]> getRedzoneCountByUsuario() {
+        return redzoneRepository.findRedzoneCountByUsuario();
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public Long getTotalRedzoneCount() {
+        return redzoneRepository.findTotalRedzoneCount();
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     public Redzone criarRedzone(Redzone redzone) {
 

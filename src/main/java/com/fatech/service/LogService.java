@@ -5,19 +5,71 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.fatech.dto.LogDTO;
+import com.fatech.dto.LogSummary;
 import com.fatech.entity.Log;
 import com.fatech.entity.Redzone;
 import com.fatech.repository.LogRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @Service
 public class LogService {
     @Autowired
     private LogRepository logRepo;
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+public Map<String, List<LogSummary>> getLogsByDepartmentAndDateRange(long departamentoId, LocalDate startDate, LocalDate endDate) {
+    LocalDateTime startDateTime = startDate.atStartOfDay();
+    LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
+
+    List<LogSummary> logSummaries = logRepo.findLogsByDepartmentAndDateRange(departamentoId, startDateTime, endDateTime);
+
+    Map<String, Map<String, LogSummary>> tempResult = new HashMap<>();
+
+    for (LogSummary summary : logSummaries) {
+        String date = summary.getDate();
+        String redzoneName = summary.getRedzoneName();
+        
+        tempResult.computeIfAbsent(date, k -> new HashMap<>()).merge(redzoneName, summary, (existing, newSummary) -> {
+            existing.setLogCount(existing.getLogCount() + newSummary.getLogCount());
+            return existing;
+        });
+    }
+
+    // TreeMap to automatically sort by the keys (dates) in ascending order
+    Map<String, List<LogSummary>> result = new TreeMap<>();
+    for (Map.Entry<String, Map<String, LogSummary>> entry : tempResult.entrySet()) {
+        result.put(entry.getKey(), new ArrayList<>(entry.getValue().values()));
+    }
+
+    return result;
+}
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Object[]> countLogsByDateAndRedzone(Long redzoneId, LocalDate startDate, LocalDate endDate) {
+        return logRepo.countLogsByDateAndRedzone(redzoneId, startDate, endDate);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_GUARD')")
+    public List<Object[]> findLogCountByRedzoneIdAndDateRangeGroupedByDay(Redzone redzoneId, LocalDateTime startDate,
+            LocalDateTime endDate) {
+        return logRepo.findLogCountByRedzoneIdAndDateRangeGroupedByDay(redzoneId, startDate, endDate);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    public List<Object[]> getRedzoneWithMostLogs() {
+        return logRepo.findRedzoneWithMostLogs();
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER','ROLE_GUARD')")
     public List<Log> findLogsByRedzoneId(Redzone redzoneId) {
