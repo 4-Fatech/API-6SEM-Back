@@ -24,6 +24,58 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    
+    @Operation(summary = "Buscar quantidade departamento por usuario", description = "Retorna todos os departamentos por usuários")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todos os departamentos por usuários"),
+            @ApiResponse(responseCode = "400", description = "Não há disponibilidade")
+    })
+    @GetMapping("/departamentosporusuario")
+    public List<Object[]> getDepartamentosByUsuario() {
+        return usuarioService.getDepartamentosByUsuario();
+    }
+
+    @Operation(summary = "Usuário com mais departamentos registrados", description = "Retorna Usuário com mais departamentos registrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todos os departamentos por usuários"),
+            @ApiResponse(responseCode = "400", description = "Não há disponibilidade")
+    })
+    @GetMapping("/maisdepartamentos")
+    public List<Object[]> getUsuariosWithDepartamentoCountOrdered() {
+        return usuarioService.getUsuariosWithDepartamentoCountOrdered();
+    }
+
+
+    @Operation(summary = "contagem total de usuarios", description = "contagem total de usuarios")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna contagem de usuarios por tipo de usuario"),
+            @ApiResponse(responseCode = "400", description = "Não há retorno")
+    })
+    @GetMapping("/total")
+    public Long getTotalUsuarioCount() {
+        return usuarioService.getTotalUsuarioCount();
+    }
+
+    @Operation(summary = "Buscar contagem de usuarios por tipo de usuario", description = "contagem de usuarios por tipo de usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna contagem de usuarios por tipo de usuario"),
+            @ApiResponse(responseCode = "400", description = "Não há retorno")
+    })
+    @GetMapping("/contagemportipousuario")
+    public List<Object[]> getUsuarioCountByTipoUsuario() {
+        return usuarioService.getUsuarioCountByTipoUsuario();
+    }
+
+    @Operation(summary = "Buscar todos os usuários com mais redzones", description = "Buscar todos os usuários com mais redzones")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retorna todos os usuários com mais redzones"),
+            @ApiResponse(responseCode = "400", description = "Não há retorno")
+    })
+    @GetMapping("/usuariocommaisredzones")
+    public List<Object[]> getUsuarioWithMostRedzones() {
+        return usuarioService.getUsuarioWithMostRedzones();
+    }
+
     @Operation(summary = "Criar um usuário", description = "Cria um novo usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso"),
