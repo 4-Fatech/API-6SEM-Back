@@ -19,7 +19,7 @@
 ## ⚙️ Funcionalidades
 
 - [X] Cadastro do fluxo de pessoas em cada redzone;
-- [ ] Possui diferenciação de usuários;
+- [X] Possui diferenciação de usuários;
 - [X] Documentação das rotas
 - [X] Deploy;
 
